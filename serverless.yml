@@ -1,0 +1,64 @@
+service: file-up-aws
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  apiGateway:
+    shouldStartNameWithService: true
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+            - "s3:PutObject"
+            - "s3:ListBucket"
+          Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
+  environment:
+    bucketName: ${self:custom.bucketName}     
+
+custom:
+  bucketName: aws-file-up
+
+functions:
+ 
+  putObject:
+    handler: Services/fileUploadService.handler
+    events:
+      - http:
+          path: /file/upload
+          method: post
+          cors: true  
+
+  getObjects:
+    handler: Services/getFilesService.handler
+    events:
+      - http:
+          path: /file
+          method: get
+          cors: true                  
+  
+                                   
+resources:
+  Resources:
+    UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: aws-file-up
+        AccessControl: Private
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - HEAD
+              AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              ExposedHeaders:
+                - ETag  
