@@ -1,0 +1,7 @@
+ const ENV_CONSTANTS = {
+  PORT: 5500,
+  SUCCESS_CODE: 200,
+  INTERNALSERVER_ERROR: 500,
+};
+
+module.exports= {ENV_CONSTANTS};
