@@ -21,6 +21,6 @@ app.use(authRouter);
 app.use(fileServiceRouter);
 
 app.listen(ENV_CONSTANTS.PORT, () => {
-  console.log(__dirname);
+  console.log(ENV_BUCKETCONSTANTS.AWS_REGION);
   console.log(`Server listening on port ${ENV_CONSTANTS.PORT}`);
 });

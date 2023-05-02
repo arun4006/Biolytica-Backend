@@ -1,41 +1,45 @@
-const AWS = require("aws-sdk");
-const {ENV_CONSTANTS}=require('../../constants/env.constants')
-const { ENV_BUCKETCONSTANTS }=require('../../constants/env.bucketConstants')
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const {ENV_BUCKETCONSTANTS} = require('../../constants/env.bucketConstants')
+const s3Client = new S3Client({ region: ENV_BUCKETCONSTANTS.AWS_REGION }); 
 
-const s3 = new AWS.S3({ signatureVersion:ENV_BUCKETCONSTANTS.SIGNATURE_VERSION, region:ENV_BUCKETCONSTANTS.AWS_REGION });
 
 exports.handler = async (event) => {
-  const body = JSON.parse(event.body);
-  const fileName = body.fileName;
-  const base64String = body.base64String;
-  const buffer = Buffer.from(base64String, ENV_BUCKETCONSTANTS.ENCODED_TYPE);
+  const fileContent = Buffer.from(event.body, ENV_BUCKETCONSTANTS.ENCODED_TYPE);
+  const bucketName = ENV_BUCKETCONSTANTS.bucketName; 
+  const objectKey = Date.now()+'.png' 
+  const params = {
+    Bucket: bucketName,
+    Key: objectKey,
+    Body: fileContent
+  };
 
   try {
-    const params = {
-      Body: buffer,
-      Bucket: process.env.bucketName,
-      Key: fileName,
-    };
-
-    await s3.putObject(params).promise();
-
+    const result = await s3Client.send(new PutObjectCommand(params));
+    console.log(`File uploaded successfully`);
     return {
-      statusCode: ENV_CONSTANTS.SUCCESS_CODE,
+      statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
+        'Access-Control-Allow-Origin': '*', 
+        'Content-Type': 'application/json'
       },
-      body: fileUploaded,
+      body: JSON.stringify({
+        message: 'File uploaded successfully',
+        "isBase64Encoded": false,
+        url: event
+      })
     };
   } catch (err) {
+    
     console.log(err);
     return {
-      statusCode: ENV_CONSTANTS.INTERNALSERVER_ERROR,
+      statusCode: 500,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
+        'Access-Control-Allow-Origin': '*', 
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(err),
+      body: JSON.stringify({
+        message: 'An error occurred while uploading the file'
+      })
     };
   }
 };

@@ -36,8 +36,8 @@ exports.generateToken = async (req, res) => {
         secure: true,
         sameSite: "none",
       });
-      //res.redirect("/fileUpload");
-      res.redirect("https://codeforgeek.com/render-html-file-expressjs/");
+      res.redirect("/fileUpload");
+      
     }
   });
 };
