@@ -4,7 +4,7 @@ const {ENV_BUCKETCONSTANTS} = require('../../constants/env.bucketConstants')
 const s3 = new S3Client({ region: 'us-east-1' });
 const bucketName = ENV_BUCKETCONSTANTS.bucketName;
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, context,callback) => {
   try {
     const data = await s3.send(new ListObjectsV2Command({ Bucket: bucketName }));
     const objects = data.Contents;

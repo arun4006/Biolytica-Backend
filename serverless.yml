@@ -39,9 +39,18 @@ functions:
       - http:
           path: /file
           method: get
-          cors: true  
+          cors: true
 
+    
+  getobjsignedurl:
+    handler: src/services/s3/s3.getFileUrlService.handler
+    events:
+      - http:
+          path: /getobjurl
+          method: get
+          cors: true                      
 
+     
 resources:
   Resources:
    MyS3Bucket:

@@ -83,28 +83,16 @@
         "LogGroupName": "/aws/lambda/fileservice-dev-getObjects"
       }
     },
-    "IndexLogGroup": {
+    "GeturlLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/fileservice-dev-index"
+        "LogGroupName": "/aws/lambda/fileservice-dev-geturl"
       }
     },
-    "InsertLogGroup": {
+    "GetobjsignedurlLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/fileservice-dev-insert"
-      }
-    },
-    "GetdataLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/fileservice-dev-getdata"
-      }
-    },
-    "GetitemLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/fileservice-dev-getitem"
+        "LogGroupName": "/aws/lambda/fileservice-dev-getobjsignedurl"
       }
     },
     "IamRoleLambdaExecution": {
@@ -201,7 +189,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683117581204-2023-05-03T12:39:41.204Z/fileservice.zip"
         },
         "Handler": "src/services/s3/S3.fileUploadService.handler",
         "Runtime": "nodejs14.x",
@@ -231,7 +219,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683117581204-2023-05-03T12:39:41.204Z/fileservice.zip"
         },
         "Handler": "src/services/s3/s3.getFilesService.handler",
         "Runtime": "nodejs14.x",
@@ -254,18 +242,18 @@
         "GetObjectsLogGroup"
       ]
     },
-    "IndexLambdaFunction": {
+    "GeturlLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683117581204-2023-05-03T12:39:41.204Z/fileservice.zip"
         },
-        "Handler": "src/services/s3/upload.handler",
+        "Handler": "src/services/s3/geturlService.handler",
         "Runtime": "nodejs14.x",
-        "FunctionName": "fileservice-dev-index",
+        "FunctionName": "fileservice-dev-geturl",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -281,21 +269,21 @@
         }
       },
       "DependsOn": [
-        "IndexLogGroup"
+        "GeturlLogGroup"
       ]
     },
-    "InsertLambdaFunction": {
+    "GetobjsignedurlLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683117581204-2023-05-03T12:39:41.204Z/fileservice.zip"
         },
-        "Handler": "src/services/s3/insert.handler",
+        "Handler": "src/services/s3/s3.getFileUrlService.handler",
         "Runtime": "nodejs14.x",
-        "FunctionName": "fileservice-dev-insert",
+        "FunctionName": "fileservice-dev-getobjsignedurl",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -311,127 +299,47 @@
         }
       },
       "DependsOn": [
-        "InsertLogGroup"
+        "GetobjsignedurlLogGroup"
       ]
     },
-    "GetdataLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
-        },
-        "Handler": "src/services/s3/getdata.handler",
-        "Runtime": "nodejs14.x",
-        "FunctionName": "fileservice-dev-getdata",
-        "MemorySize": 1024,
-        "Timeout": 6,
-        "Environment": {
-          "Variables": {
-            "bucketName": "aws-demo-files"
-          }
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        }
-      },
-      "DependsOn": [
-        "GetdataLogGroup"
-      ]
-    },
-    "GetitemLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/fileservice/dev/1683009566102-2023-05-02T06:39:26.102Z/fileservice.zip"
-        },
-        "Handler": "src/services/s3/getitem.handler",
-        "Runtime": "nodejs14.x",
-        "FunctionName": "fileservice-dev-getitem",
-        "MemorySize": 1024,
-        "Timeout": 6,
-        "Environment": {
-          "Variables": {
-            "bucketName": "aws-demo-files"
-          }
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        }
-      },
-      "DependsOn": [
-        "GetitemLogGroup"
-      ]
-    },
-    "PutObjectsLambdaVersion6Ffw6ORzrQY4P3YRa0nGc3XjPEICbWdXdhg7CW6boo8": {
+    "PutObjectsLambdaVersionlCR3Qf84tTzwyTtO7YeTuKwhXMPdYyEotTm5kvXc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PutObjectsLambdaFunction"
         },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
+        "CodeSha256": "vMwsujgoUnE1Kov6agywQiGBzS/SoDIHy18h1Ybi9kA="
       }
     },
-    "GetObjectsLambdaVersionQ1dJdrrNVzhwDKtYkJNBmkHz89eKZz5VY9BAJNm0RQ": {
+    "GetObjectsLambdaVersionIGWl2X9tfXOWenJ7IaqHfVr85vokr7tAxwIiWFBWfg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetObjectsLambdaFunction"
         },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
+        "CodeSha256": "vMwsujgoUnE1Kov6agywQiGBzS/SoDIHy18h1Ybi9kA="
       }
     },
-    "IndexLambdaVersionGtXPUVP82dTXY9EsjH7nsRJHP5VSwD4FZ2pleulSc": {
+    "GeturlLambdaVersionxHQ05ScMep5mulRfSBwFaptgMvx2ODeJ19vxyArhEo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "IndexLambdaFunction"
+          "Ref": "GeturlLambdaFunction"
         },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
+        "CodeSha256": "vMwsujgoUnE1Kov6agywQiGBzS/SoDIHy18h1Ybi9kA="
       }
     },
-    "InsertLambdaVersion3bMIYl4GmDzKOE3i3SnzaaKJW6hdERowqNSTBFwtxE": {
+    "GetobjsignedurlLambdaVersionszNqMrDx793QA4J1zxpxMu2qGewudH20N8jjcqesnLI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "InsertLambdaFunction"
+          "Ref": "GetobjsignedurlLambdaFunction"
         },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
-      }
-    },
-    "GetdataLambdaVersionJhaBvmrijCT93mysA3eBcpXT178UuASYOuPkJV0VTU": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "GetdataLambdaFunction"
-        },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
-      }
-    },
-    "GetitemLambdaVersiond1WVKPCL6YYYXFiLEp2k8jyKzWCOR6y3s8yBvQvx4": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "GetitemLambdaFunction"
-        },
-        "CodeSha256": "rjInLjI5aE04pDfiy6wXzNDlOp0TfVgoDjY1bq55oc4="
+        "CodeSha256": "vMwsujgoUnE1Kov6agywQiGBzS/SoDIHy18h1Ybi9kA="
       }
     },
     "ApiGatewayRestApi": {
@@ -476,7 +384,7 @@
         }
       }
     },
-    "ApiGatewayResourceIndex": {
+    "ApiGatewayResourceGeturl": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -485,13 +393,13 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "index",
+        "PathPart": "geturl",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayResourceInsert": {
+    "ApiGatewayResourceGetobjurl": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -500,37 +408,7 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "insert",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceGetdata": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "getdata",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceGetitem": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "getitem",
+        "PathPart": "getobjurl",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -626,97 +504,7 @@
         }
       }
     },
-    "ApiGatewayMethodIndexOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "ContentHandling": "CONVERT_TO_TEXT",
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceIndex"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodInsertOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "ContentHandling": "CONVERT_TO_TEXT",
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceInsert"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodGetdataOptions": {
+    "ApiGatewayMethodGeturlOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -754,14 +542,14 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceGetdata"
+          "Ref": "ApiGatewayResourceGeturl"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
       }
     },
-    "ApiGatewayMethodGetitemOptions": {
+    "ApiGatewayMethodGetobjurlOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -799,7 +587,7 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceGetitem"
+          "Ref": "ApiGatewayResourceGetobjurl"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -898,105 +686,13 @@
         "GetObjectsLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodIndexPost": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "POST",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceIndex"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "IndexLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      },
-      "DependsOn": [
-        "IndexLambdaPermissionApiGateway"
-      ]
-    },
-    "ApiGatewayMethodInsertPost": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "POST",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceInsert"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "InsertLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      },
-      "DependsOn": [
-        "InsertLambdaPermissionApiGateway"
-      ]
-    },
-    "ApiGatewayMethodGetdataGet": {
+    "ApiGatewayMethodGeturlGet": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceGetdata"
+          "Ref": "ApiGatewayResourceGeturl"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -1021,7 +717,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "GetdataLambdaFunction",
+                    "GeturlLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -1033,16 +729,16 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "GetdataLambdaPermissionApiGateway"
+        "GeturlLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodGetitemGet": {
+    "ApiGatewayMethodGetobjurlGet": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceGetitem"
+          "Ref": "ApiGatewayResourceGetobjurl"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -1067,7 +763,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "GetitemLambdaFunction",
+                    "GetobjsignedurlLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -1079,10 +775,10 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "GetitemLambdaPermissionApiGateway"
+        "GetobjsignedurlLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1683009556141": {
+    "ApiGatewayDeployment1683117572248": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1093,16 +789,12 @@
       "DependsOn": [
         "ApiGatewayMethodFileuploadOptions",
         "ApiGatewayMethodFileOptions",
-        "ApiGatewayMethodIndexOptions",
-        "ApiGatewayMethodInsertOptions",
-        "ApiGatewayMethodGetdataOptions",
-        "ApiGatewayMethodGetitemOptions",
+        "ApiGatewayMethodGeturlOptions",
+        "ApiGatewayMethodGetobjurlOptions",
         "ApiGatewayMethodFileuploadPost",
         "ApiGatewayMethodFileGet",
-        "ApiGatewayMethodIndexPost",
-        "ApiGatewayMethodInsertPost",
-        "ApiGatewayMethodGetdataGet",
-        "ApiGatewayMethodGetitemGet"
+        "ApiGatewayMethodGeturlGet",
+        "ApiGatewayMethodGetobjurlGet"
       ]
     },
     "PutObjectsLambdaPermissionApiGateway": {
@@ -1179,12 +871,12 @@
         }
       }
     },
-    "IndexLambdaPermissionApiGateway": {
+    "GeturlLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "IndexLambdaFunction",
+            "GeturlLambdaFunction",
             "Arn"
           ]
         },
@@ -1216,86 +908,12 @@
         }
       }
     },
-    "InsertLambdaPermissionApiGateway": {
+    "GetobjsignedurlLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "InsertLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "GetdataLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "GetdataLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "GetitemLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "GetitemLambdaFunction",
+            "GetobjsignedurlLambdaFunction",
             "Arn"
           ]
         },
@@ -1368,7 +986,7 @@
     "PutObjectsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PutObjectsLambdaVersion6Ffw6ORzrQY4P3YRa0nGc3XjPEICbWdXdhg7CW6boo8"
+        "Ref": "PutObjectsLambdaVersionlCR3Qf84tTzwyTtO7YeTuKwhXMPdYyEotTm5kvXc"
       },
       "Export": {
         "Name": "sls-fileservice-dev-PutObjectsLambdaFunctionQualifiedArn"
@@ -1377,46 +995,28 @@
     "GetObjectsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetObjectsLambdaVersionQ1dJdrrNVzhwDKtYkJNBmkHz89eKZz5VY9BAJNm0RQ"
+        "Ref": "GetObjectsLambdaVersionIGWl2X9tfXOWenJ7IaqHfVr85vokr7tAxwIiWFBWfg"
       },
       "Export": {
         "Name": "sls-fileservice-dev-GetObjectsLambdaFunctionQualifiedArn"
       }
     },
-    "IndexLambdaFunctionQualifiedArn": {
+    "GeturlLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "IndexLambdaVersionGtXPUVP82dTXY9EsjH7nsRJHP5VSwD4FZ2pleulSc"
+        "Ref": "GeturlLambdaVersionxHQ05ScMep5mulRfSBwFaptgMvx2ODeJ19vxyArhEo"
       },
       "Export": {
-        "Name": "sls-fileservice-dev-IndexLambdaFunctionQualifiedArn"
+        "Name": "sls-fileservice-dev-GeturlLambdaFunctionQualifiedArn"
       }
     },
-    "InsertLambdaFunctionQualifiedArn": {
+    "GetobjsignedurlLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "InsertLambdaVersion3bMIYl4GmDzKOE3i3SnzaaKJW6hdERowqNSTBFwtxE"
+        "Ref": "GetobjsignedurlLambdaVersionszNqMrDx793QA4J1zxpxMu2qGewudH20N8jjcqesnLI"
       },
       "Export": {
-        "Name": "sls-fileservice-dev-InsertLambdaFunctionQualifiedArn"
-      }
-    },
-    "GetdataLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "GetdataLambdaVersionJhaBvmrijCT93mysA3eBcpXT178UuASYOuPkJV0VTU"
-      },
-      "Export": {
-        "Name": "sls-fileservice-dev-GetdataLambdaFunctionQualifiedArn"
-      }
-    },
-    "GetitemLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "GetitemLambdaVersiond1WVKPCL6YYYXFiLEp2k8jyKzWCOR6y3s8yBvQvx4"
-      },
-      "Export": {
-        "Name": "sls-fileservice-dev-GetitemLambdaFunctionQualifiedArn"
+        "Name": "sls-fileservice-dev-GetobjsignedurlLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
