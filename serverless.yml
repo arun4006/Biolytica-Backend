@@ -1,6 +1,11 @@
 service: fileservice
 frameworkVersion: "3"
 
+
+package:
+  patterns:
+  - 'node_modules/**'
+
 provider:
   name: aws
   runtime: nodejs14.x

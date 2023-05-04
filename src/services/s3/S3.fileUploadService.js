@@ -2,7 +2,6 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const {ENV_BUCKETCONSTANTS} = require('../../constants/env.bucketConstants')
 const s3Client = new S3Client({ region: ENV_BUCKETCONSTANTS.AWS_REGION }); 
 
-
 exports.handler = async (event) => {
   const fileContent = Buffer.from(event.body, ENV_BUCKETCONSTANTS.ENCODED_TYPE);
   const bucketName = ENV_BUCKETCONSTANTS.bucketName; 
@@ -43,3 +42,5 @@ exports.handler = async (event) => {
     };
   }
 };
+
+
