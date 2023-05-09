@@ -10,7 +10,9 @@ const mysqlConnection = require("../../services/db/mysqlConnection");
 const util = require("util");
 
 exports.fileUpload = async (req, res) => {
-  res.send("fileupload UI");
+  //res.send("fileupload UI");
+  res.redirect('http://localhost:4200/upload')
+
 };
 
 exports.getallObjects = async (req, res) => {

@@ -6,6 +6,10 @@ package:
   patterns:
   - 'node_modules/**'
 
+# plugins:
+#   - serverless-plugin-include-dependencies  
+ 
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -21,6 +25,7 @@ provider:
             - "s3:GetObject"
             - "s3:PutObject"
             - "s3:ListBucket"
+            - "s3:PutBucketAcl"
           Resource: "arn:aws:s3:::${self:custom.bucketName}/*"
 
   environment:
@@ -31,7 +36,7 @@ custom:
 
 functions:
   putObjects:
-    handler:  src/services/s3/S3.fileUploadService.handler
+    handler:  src/services/s3/fileUploadService.handler
     events:
       - http:
           path: /fileupload
@@ -53,8 +58,20 @@ functions:
       - http:
           path: /getobjurl
           method: get
-          cors: true                      
+          cors: true
 
+  multifileupload:
+    handler: src/services/s3/multiFileUpload.handler
+    events:
+      - http:
+          path: /multiupload
+          method: post
+          cors: true    
+
+                                 
+  
+
+   
      
 resources:
   Resources:
@@ -76,3 +93,7 @@ resources:
               - "*"
             ExposedHeaders:
               - ETag
+
+#   package:
+#    excludeDevDependencies: false
+

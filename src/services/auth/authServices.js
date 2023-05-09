@@ -30,7 +30,7 @@ exports.generateToken = async (req, res) => {
       res.send(error);
     } else {
       const accessToken = JSON.parse(body).access_token;
-      //console.log(accessToken);
+      console.log(accessToken);
       res.cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: true,

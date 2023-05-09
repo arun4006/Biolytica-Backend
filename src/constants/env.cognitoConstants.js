@@ -1,10 +1,12 @@
  const ENV_COGNITOCONSTANTS = {
-    CLIENT_ID: "5js45754cce2otm1jhjfpt0nlq",
-    CLIENT_SECRET:"ujq2jt1dorto9m7dgf9af2amo4853o6ur6i2qs2q1ri5ms7hl5m",
-    COGNITO_DOMAIN:"blogpost",
+    CLIENT_ID: "54js58dob1gqfutsfkt90oupac",
+    CLIENT_SECRET:"1tj394jdtil730p6uft9a92lemd9945n800e0ks8453g0m8qr31b",
+    COGNITO_DOMAIN:"cognitity",
     REDIRECT_URI:"http://localhost:5500/api-auth/auth",
-    USERPOOL_ID:"us-east-1_J2h9TpnHe",
-    AWS_REGION: 'us-east-1'
+    USERPOOL_ID:"us-east-1_oXI1bfGdw",
+    AWS_REGION: 'us-east-1',
+    SCOPE:'profile',
+    TOKEN_USE:'access'
 };
 
 module.exports= { ENV_COGNITOCONSTANTS };
