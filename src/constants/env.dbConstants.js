@@ -1,9 +1,10 @@
 const ENV_DBCONSTANTS = {
-  HOST: 'localhost',
-  USER: 'root',
-  PASSWORD:'123456',
-  DATABASE: 'bucket',
-  TABLENAME_IMAGES:'images'
+  HOST: 'database-3.cdgkfoacvf6u.us-east-1.rds.amazonaws.com',
+  USER: 'admin',
+  PASSWORD:'qwerty1234',
+  DATABASE: 'my_db',
+  TABLENAME_IMAGES:'Imageinfo',
+  PORT:'3306'
   };
   
 module.exports= {ENV_DBCONSTANTS};

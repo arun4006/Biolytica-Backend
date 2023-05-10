@@ -67,6 +67,14 @@ functions:
           path: /multiupload
           method: post
           cors: true    
+  
+  up:
+    handler: src/services/s3/fileUploadingService.handler
+    events:
+      - http:
+          path: /up
+          method: post
+          cors: true           
 
                                  
   

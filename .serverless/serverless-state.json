@@ -123,16 +123,16 @@
               "LogGroupName": "/aws/lambda/fileservice-dev-getobjsignedurl"
             }
           },
+          "MultifileuploadLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/fileservice-dev-multifileupload"
+            }
+          },
           "UpLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
               "LogGroupName": "/aws/lambda/fileservice-dev-up"
-            }
-          },
-          "DemoLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/fileservice-dev-demo"
             }
           },
           "IamRoleLambdaExecution": {
@@ -223,7 +223,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
               },
               "Handler": "src/services/s3/fileUploadService.handler",
               "Runtime": "nodejs14.x",
@@ -253,7 +253,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
               },
               "Handler": "src/services/s3/s3.getFilesService.handler",
               "Runtime": "nodejs14.x",
@@ -283,7 +283,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
               },
               "Handler": "src/services/s3/s3.getFileUrlService.handler",
               "Runtime": "nodejs14.x",
@@ -306,6 +306,36 @@
               "GetobjsignedurlLogGroup"
             ]
           },
+          "MultifileuploadLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+              },
+              "Handler": "src/services/s3/multiFileUpload.handler",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "fileservice-dev-multifileupload",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "bucketName": "aws-demo-files"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "MultifileuploadLogGroup"
+            ]
+          },
           "UpLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -313,7 +343,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
               },
               "Handler": "src/services/s3/fileUploadingService.handler",
               "Runtime": "nodejs14.x",
@@ -336,84 +366,54 @@
               "UpLogGroup"
             ]
           },
-          "DemoLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z/fileservice.zip"
-              },
-              "Handler": "src/services/s3/demo.handler",
-              "Runtime": "nodejs14.x",
-              "FunctionName": "fileservice-dev-demo",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "bucketName": "aws-demo-files"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "DemoLogGroup"
-            ]
-          },
-          "PutObjectsLambdaVersionqOAWB7k7Q1VBJD86EgI5PeIPV7y8lNHwKCCz28peFY": {
+          "PutObjectsLambdaVersionFFQqFoSm6wTh8jFhXNeOTZpGWd1giVjumXeUDgAR4E": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PutObjectsLambdaFunction"
               },
-              "CodeSha256": "QK6AYSJE8sHZ0VfkLCE1yrlEfcb0zPVMSKG7EBHnTMg="
+              "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
             }
           },
-          "GetObjectsLambdaVersioncXyGxaRcOe7x8UIXMg9bH6Zj2qqD3ALDaO0kXA780Co": {
+          "GetObjectsLambdaVersionn5fNSa17KuGmaJQI6fw89H7XRms918ry6IeQiWgk08": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetObjectsLambdaFunction"
               },
-              "CodeSha256": "QK6AYSJE8sHZ0VfkLCE1yrlEfcb0zPVMSKG7EBHnTMg="
+              "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
             }
           },
-          "GetobjsignedurlLambdaVersion1h3vAnqy6hBfQRI0eShjxl6AAn0tvFj78ojvXn5mo": {
+          "GetobjsignedurlLambdaVersion0YIjolZb4kbtvPDdvqIUnjqQiT4qykse6s6cPMMZQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetobjsignedurlLambdaFunction"
               },
-              "CodeSha256": "QK6AYSJE8sHZ0VfkLCE1yrlEfcb0zPVMSKG7EBHnTMg="
+              "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
             }
           },
-          "UpLambdaVersion1rpm4h06qHuZJBr2VxCxemIvs1rfuhmCwo4QJLI": {
+          "MultifileuploadLambdaVersionfTH7xbMl1IvAWdE28VV601JydWrmVF0GC75fxL0w": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "MultifileuploadLambdaFunction"
+              },
+              "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+            }
+          },
+          "UpLambdaVersionslFLCixJSxd7aeecn8aw3yCHP0Dq8lt9YFOLCfWGQVo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpLambdaFunction"
               },
-              "CodeSha256": "QK6AYSJE8sHZ0VfkLCE1yrlEfcb0zPVMSKG7EBHnTMg="
-            }
-          },
-          "DemoLambdaVersionw0QOYqs5eodBPYFSAEd7SMvnHT7AzfdaEeuy63v5LUc": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "DemoLambdaFunction"
-              },
-              "CodeSha256": "QK6AYSJE8sHZ0VfkLCE1yrlEfcb0zPVMSKG7EBHnTMg="
+              "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
             }
           },
           "ApiGatewayRestApi": {
@@ -473,7 +473,7 @@
               }
             }
           },
-          "ApiGatewayResourceUpload": {
+          "ApiGatewayResourceMultiupload": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -482,13 +482,13 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "upload",
+              "PathPart": "multiupload",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
             }
           },
-          "ApiGatewayResourceDemo": {
+          "ApiGatewayResourceUp": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -497,7 +497,7 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "demo",
+              "PathPart": "up",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -638,7 +638,7 @@
               }
             }
           },
-          "ApiGatewayMethodUploadOptions": {
+          "ApiGatewayMethodMultiuploadOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "AuthorizationType": "NONE",
@@ -676,14 +676,14 @@
                 ]
               },
               "ResourceId": {
-                "Ref": "ApiGatewayResourceUpload"
+                "Ref": "ApiGatewayResourceMultiupload"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
             }
           },
-          "ApiGatewayMethodDemoOptions": {
+          "ApiGatewayMethodUpOptions": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "AuthorizationType": "NONE",
@@ -721,7 +721,7 @@
                 ]
               },
               "ResourceId": {
-                "Ref": "ApiGatewayResourceDemo"
+                "Ref": "ApiGatewayResourceUp"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -866,13 +866,59 @@
               "GetobjsignedurlLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodUploadPost": {
+          "ApiGatewayMethodMultiuploadPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "POST",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceUpload"
+                "Ref": "ApiGatewayResourceMultiupload"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "MultifileuploadLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "MultifileuploadLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodUpPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceUp"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -912,53 +958,7 @@
               "UpLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodDemoPost": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "POST",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceDemo"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "DemoLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": []
-            },
-            "DependsOn": [
-              "DemoLambdaPermissionApiGateway"
-            ]
-          },
-          "ApiGatewayDeployment1683640878501": {
+          "ApiGatewayDeployment1683711524833": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -970,13 +970,13 @@
               "ApiGatewayMethodFileuploadOptions",
               "ApiGatewayMethodFileOptions",
               "ApiGatewayMethodGetobjurlOptions",
-              "ApiGatewayMethodUploadOptions",
-              "ApiGatewayMethodDemoOptions",
+              "ApiGatewayMethodMultiuploadOptions",
+              "ApiGatewayMethodUpOptions",
               "ApiGatewayMethodFileuploadPost",
               "ApiGatewayMethodFileGet",
               "ApiGatewayMethodGetobjurlGet",
-              "ApiGatewayMethodUploadPost",
-              "ApiGatewayMethodDemoPost"
+              "ApiGatewayMethodMultiuploadPost",
+              "ApiGatewayMethodUpPost"
             ]
           },
           "PutObjectsLambdaPermissionApiGateway": {
@@ -1090,12 +1090,12 @@
               }
             }
           },
-          "UpLambdaPermissionApiGateway": {
+          "MultifileuploadLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "UpLambdaFunction",
+                  "MultifileuploadLambdaFunction",
                   "Arn"
                 ]
               },
@@ -1127,12 +1127,12 @@
               }
             }
           },
-          "DemoLambdaPermissionApiGateway": {
+          "UpLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "DemoLambdaFunction",
+                  "UpLambdaFunction",
                   "Arn"
                 ]
               },
@@ -1205,7 +1205,7 @@
           "PutObjectsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PutObjectsLambdaVersionqOAWB7k7Q1VBJD86EgI5PeIPV7y8lNHwKCCz28peFY"
+              "Ref": "PutObjectsLambdaVersionFFQqFoSm6wTh8jFhXNeOTZpGWd1giVjumXeUDgAR4E"
             },
             "Export": {
               "Name": "sls-fileservice-dev-PutObjectsLambdaFunctionQualifiedArn"
@@ -1214,7 +1214,7 @@
           "GetObjectsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetObjectsLambdaVersioncXyGxaRcOe7x8UIXMg9bH6Zj2qqD3ALDaO0kXA780Co"
+              "Ref": "GetObjectsLambdaVersionn5fNSa17KuGmaJQI6fw89H7XRms918ry6IeQiWgk08"
             },
             "Export": {
               "Name": "sls-fileservice-dev-GetObjectsLambdaFunctionQualifiedArn"
@@ -1223,28 +1223,28 @@
           "GetobjsignedurlLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetobjsignedurlLambdaVersion1h3vAnqy6hBfQRI0eShjxl6AAn0tvFj78ojvXn5mo"
+              "Ref": "GetobjsignedurlLambdaVersion0YIjolZb4kbtvPDdvqIUnjqQiT4qykse6s6cPMMZQ"
             },
             "Export": {
               "Name": "sls-fileservice-dev-GetobjsignedurlLambdaFunctionQualifiedArn"
             }
           },
+          "MultifileuploadLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "MultifileuploadLambdaVersionfTH7xbMl1IvAWdE28VV601JydWrmVF0GC75fxL0w"
+            },
+            "Export": {
+              "Name": "sls-fileservice-dev-MultifileuploadLambdaFunctionQualifiedArn"
+            }
+          },
           "UpLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpLambdaVersion1rpm4h06qHuZJBr2VxCxemIvs1rfuhmCwo4QJLI"
+              "Ref": "UpLambdaVersionslFLCixJSxd7aeecn8aw3yCHP0Dq8lt9YFOLCfWGQVo"
             },
             "Export": {
               "Name": "sls-fileservice-dev-UpLambdaFunctionQualifiedArn"
-            }
-          },
-          "DemoLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "DemoLambdaVersionw0QOYqs5eodBPYFSAEd7SMvnHT7AzfdaEeuy63v5LUc"
-            },
-            "Export": {
-              "Name": "sls-fileservice-dev-DemoLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -1398,7 +1398,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "PutObjectsLambdaVersionqOAWB7k7Q1VBJD86EgI5PeIPV7y8lNHwKCCz28peFY"
+        "versionLogicalId": "PutObjectsLambdaVersionFFQqFoSm6wTh8jFhXNeOTZpGWd1giVjumXeUDgAR4E"
       },
       "getObjects": {
         "handler": "src/services/s3/s3.getFilesService.handler",
@@ -1434,7 +1434,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetObjectsLambdaVersioncXyGxaRcOe7x8UIXMg9bH6Zj2qqD3ALDaO0kXA780Co"
+        "versionLogicalId": "GetObjectsLambdaVersionn5fNSa17KuGmaJQI6fw89H7XRms918ry6IeQiWgk08"
       },
       "getobjsignedurl": {
         "handler": "src/services/s3/s3.getFileUrlService.handler",
@@ -1470,14 +1470,50 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetobjsignedurlLambdaVersion1h3vAnqy6hBfQRI0eShjxl6AAn0tvFj78ojvXn5mo"
+        "versionLogicalId": "GetobjsignedurlLambdaVersion0YIjolZb4kbtvPDdvqIUnjqQiT4qykse6s6cPMMZQ"
+      },
+      "multifileupload": {
+        "handler": "src/services/s3/multiFileUpload.handler",
+        "events": [
+          {
+            "http": {
+              "path": "multiupload",
+              "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent",
+                  "X-Amzn-Trace-Id"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "fileservice-dev-multifileupload",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs14.x",
+        "vpc": {},
+        "versionLogicalId": "MultifileuploadLambdaVersionfTH7xbMl1IvAWdE28VV601JydWrmVF0GC75fxL0w"
       },
       "up": {
         "handler": "src/services/s3/fileUploadingService.handler",
         "events": [
           {
             "http": {
-              "path": "upload",
+              "path": "up",
               "method": "post",
               "cors": {
                 "origin": "*",
@@ -1506,43 +1542,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "UpLambdaVersion1rpm4h06qHuZJBr2VxCxemIvs1rfuhmCwo4QJLI"
-      },
-      "demo": {
-        "handler": "src/services/s3/demo.handler",
-        "events": [
-          {
-            "http": {
-              "path": "demo",
-              "method": "post",
-              "cors": {
-                "origin": "*",
-                "methods": [
-                  "OPTIONS",
-                  "POST"
-                ],
-                "headers": [
-                  "Content-Type",
-                  "X-Amz-Date",
-                  "Authorization",
-                  "X-Api-Key",
-                  "X-Amz-Security-Token",
-                  "X-Amz-User-Agent",
-                  "X-Amzn-Trace-Id"
-                ],
-                "allowCredentials": false
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "fileservice-dev-demo",
-        "package": {},
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs14.x",
-        "vpc": {},
-        "versionLogicalId": "DemoLambdaVersionw0QOYqs5eodBPYFSAEd7SMvnHT7AzfdaEeuy63v5LUc"
+        "versionLogicalId": "UpLambdaVersionslFLCixJSxd7aeecn8aw3yCHP0Dq8lt9YFOLCfWGQVo"
       }
     },
     "resources": {
@@ -1589,7 +1589,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/fileservice/dev/code-artifacts",
         "artifact": "E:\\Biolytica-Backend\\.serverless\\fileservice.zip",
-        "artifactDirectoryName": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z"
+        "artifactDirectoryName": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z"
       },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
@@ -1609,7 +1609,7 @@
     "artifact": "E:\\Biolytica-Backend\\.serverless\\fileservice.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fileservice/dev/1683640904487-2023-05-09T14:01:44.487Z",
+    "artifactDirectoryName": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z",
     "artifact": "fileservice.zip"
   }
 }
