@@ -5,17 +5,16 @@ const mysqlConnection = mysql.createConnection({
  user: ENV_DBCONSTANTS.USER,
  password: ENV_DBCONSTANTS.PASSWORD,
  database: ENV_DBCONSTANTS.DATABASE,
- port:ENV_DBCONSTANTS.PORT
+ port:ENV_DBCONSTANTS.PORT,
+ connectTimeout : 60000
 });
 
-mysqlConnection.connect(function(err) {  
-    if (err){
-        console.log("error:"+err);
-        throw err;
-       
-    }   
-
-    console.log("Connected!");  
+mysqlConnection.connect((err) => {
+    if (err) {
+      console.error('Error connecting to MySQL database: ', err);
+      return;
+    }
+    console.log('Connected to MySQL database successfully!');
   });
 
 module.exports = mysqlConnection;

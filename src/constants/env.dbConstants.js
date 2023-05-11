@@ -4,6 +4,7 @@ const ENV_DBCONSTANTS = {
   PASSWORD:'qwerty1234',
   DATABASE: 'my_db',
   TABLENAME_IMAGES:'Imageinfo',
+  TABLENAME_USERPROFILE:'UserProfile',
   PORT:'3306'
   };
   

@@ -68,13 +68,13 @@ functions:
           method: post
           cors: true    
   
-  up:
-    handler: src/services/s3/fileUploadingService.handler
+  new:
+    handler: src/services/s3/new.handler
     events:
       - http:
-          path: /up
+          path: /new
           method: post
-          cors: true           
+          cors: true          
 
                                  
   

@@ -95,10 +95,10 @@
         "LogGroupName": "/aws/lambda/fileservice-dev-multifileupload"
       }
     },
-    "UpLogGroup": {
+    "NewLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/fileservice-dev-up"
+        "LogGroupName": "/aws/lambda/fileservice-dev-new"
       }
     },
     "IamRoleLambdaExecution": {
@@ -196,7 +196,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683808885770-2023-05-11T12:41:25.770Z/fileservice.zip"
         },
         "Handler": "src/services/s3/fileUploadService.handler",
         "Runtime": "nodejs14.x",
@@ -226,7 +226,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683808885770-2023-05-11T12:41:25.770Z/fileservice.zip"
         },
         "Handler": "src/services/s3/s3.getFilesService.handler",
         "Runtime": "nodejs14.x",
@@ -256,7 +256,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683808885770-2023-05-11T12:41:25.770Z/fileservice.zip"
         },
         "Handler": "src/services/s3/s3.getFileUrlService.handler",
         "Runtime": "nodejs14.x",
@@ -286,7 +286,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683808885770-2023-05-11T12:41:25.770Z/fileservice.zip"
         },
         "Handler": "src/services/s3/multiFileUpload.handler",
         "Runtime": "nodejs14.x",
@@ -309,18 +309,18 @@
         "MultifileuploadLogGroup"
       ]
     },
-    "UpLambdaFunction": {
+    "NewLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fileservice/dev/1683711545036-2023-05-10T09:39:05.036Z/fileservice.zip"
+          "S3Key": "serverless/fileservice/dev/1683808885770-2023-05-11T12:41:25.770Z/fileservice.zip"
         },
-        "Handler": "src/services/s3/fileUploadingService.handler",
+        "Handler": "src/services/s3/new.handler",
         "Runtime": "nodejs14.x",
-        "FunctionName": "fileservice-dev-up",
+        "FunctionName": "fileservice-dev-new",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -336,57 +336,57 @@
         }
       },
       "DependsOn": [
-        "UpLogGroup"
+        "NewLogGroup"
       ]
     },
-    "PutObjectsLambdaVersionFFQqFoSm6wTh8jFhXNeOTZpGWd1giVjumXeUDgAR4E": {
+    "PutObjectsLambdaVersionJmwWJZ1Bp7GPAjboeGdLuuGNbj4lQHBKA4dXDctY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PutObjectsLambdaFunction"
         },
-        "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+        "CodeSha256": "0YBLM0KRDoLwlR/+1mhrzB31+/yo/IiU5fMACNusTUU="
       }
     },
-    "GetObjectsLambdaVersionn5fNSa17KuGmaJQI6fw89H7XRms918ry6IeQiWgk08": {
+    "GetObjectsLambdaVersionU35tuwE4EStDfAvzr259CccwWVC7Zh3tv9OVLpQjU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetObjectsLambdaFunction"
         },
-        "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+        "CodeSha256": "0YBLM0KRDoLwlR/+1mhrzB31+/yo/IiU5fMACNusTUU="
       }
     },
-    "GetobjsignedurlLambdaVersion0YIjolZb4kbtvPDdvqIUnjqQiT4qykse6s6cPMMZQ": {
+    "GetobjsignedurlLambdaVersionhtT7nfAl6GcFSLbHDFoDGwunH8JKcDhJegqxaOZ4CUQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetobjsignedurlLambdaFunction"
         },
-        "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+        "CodeSha256": "0YBLM0KRDoLwlR/+1mhrzB31+/yo/IiU5fMACNusTUU="
       }
     },
-    "MultifileuploadLambdaVersionfTH7xbMl1IvAWdE28VV601JydWrmVF0GC75fxL0w": {
+    "MultifileuploadLambdaVersionmAIGlUVybmRZujuj7Ejqcgjr95aCqV8byD5LgDBG0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MultifileuploadLambdaFunction"
         },
-        "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+        "CodeSha256": "0YBLM0KRDoLwlR/+1mhrzB31+/yo/IiU5fMACNusTUU="
       }
     },
-    "UpLambdaVersionslFLCixJSxd7aeecn8aw3yCHP0Dq8lt9YFOLCfWGQVo": {
+    "NewLambdaVersionygVLggXB9mreRoowjf7wSznTEqBAwCeDgkkxsvtaYUQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "UpLambdaFunction"
+          "Ref": "NewLambdaFunction"
         },
-        "CodeSha256": "Ibe/iYpvtzO/DJyCR+hjQw0l/O/o18ISwd8rD5Vj8V4="
+        "CodeSha256": "0YBLM0KRDoLwlR/+1mhrzB31+/yo/IiU5fMACNusTUU="
       }
     },
     "ApiGatewayRestApi": {
@@ -461,7 +461,7 @@
         }
       }
     },
-    "ApiGatewayResourceUp": {
+    "ApiGatewayResourceNew": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -470,7 +470,7 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "up",
+        "PathPart": "new",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -656,7 +656,7 @@
         }
       }
     },
-    "ApiGatewayMethodUpOptions": {
+    "ApiGatewayMethodNewOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -694,7 +694,7 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceUp"
+          "Ref": "ApiGatewayResourceNew"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -885,13 +885,13 @@
         "MultifileuploadLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodUpPost": {
+    "ApiGatewayMethodNewPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "POST",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceUp"
+          "Ref": "ApiGatewayResourceNew"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -916,7 +916,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "UpLambdaFunction",
+                    "NewLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -928,10 +928,10 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "UpLambdaPermissionApiGateway"
+        "NewLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1683711524833": {
+    "ApiGatewayDeployment1683808851874": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -944,12 +944,12 @@
         "ApiGatewayMethodFileOptions",
         "ApiGatewayMethodGetobjurlOptions",
         "ApiGatewayMethodMultiuploadOptions",
-        "ApiGatewayMethodUpOptions",
+        "ApiGatewayMethodNewOptions",
         "ApiGatewayMethodFileuploadPost",
         "ApiGatewayMethodFileGet",
         "ApiGatewayMethodGetobjurlGet",
         "ApiGatewayMethodMultiuploadPost",
-        "ApiGatewayMethodUpPost"
+        "ApiGatewayMethodNewPost"
       ]
     },
     "PutObjectsLambdaPermissionApiGateway": {
@@ -1100,12 +1100,12 @@
         }
       }
     },
-    "UpLambdaPermissionApiGateway": {
+    "NewLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "UpLambdaFunction",
+            "NewLambdaFunction",
             "Arn"
           ]
         },
@@ -1178,7 +1178,7 @@
     "PutObjectsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PutObjectsLambdaVersionFFQqFoSm6wTh8jFhXNeOTZpGWd1giVjumXeUDgAR4E"
+        "Ref": "PutObjectsLambdaVersionJmwWJZ1Bp7GPAjboeGdLuuGNbj4lQHBKA4dXDctY"
       },
       "Export": {
         "Name": "sls-fileservice-dev-PutObjectsLambdaFunctionQualifiedArn"
@@ -1187,7 +1187,7 @@
     "GetObjectsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetObjectsLambdaVersionn5fNSa17KuGmaJQI6fw89H7XRms918ry6IeQiWgk08"
+        "Ref": "GetObjectsLambdaVersionU35tuwE4EStDfAvzr259CccwWVC7Zh3tv9OVLpQjU"
       },
       "Export": {
         "Name": "sls-fileservice-dev-GetObjectsLambdaFunctionQualifiedArn"
@@ -1196,7 +1196,7 @@
     "GetobjsignedurlLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetobjsignedurlLambdaVersion0YIjolZb4kbtvPDdvqIUnjqQiT4qykse6s6cPMMZQ"
+        "Ref": "GetobjsignedurlLambdaVersionhtT7nfAl6GcFSLbHDFoDGwunH8JKcDhJegqxaOZ4CUQ"
       },
       "Export": {
         "Name": "sls-fileservice-dev-GetobjsignedurlLambdaFunctionQualifiedArn"
@@ -1205,19 +1205,19 @@
     "MultifileuploadLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MultifileuploadLambdaVersionfTH7xbMl1IvAWdE28VV601JydWrmVF0GC75fxL0w"
+        "Ref": "MultifileuploadLambdaVersionmAIGlUVybmRZujuj7Ejqcgjr95aCqV8byD5LgDBG0"
       },
       "Export": {
         "Name": "sls-fileservice-dev-MultifileuploadLambdaFunctionQualifiedArn"
       }
     },
-    "UpLambdaFunctionQualifiedArn": {
+    "NewLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpLambdaVersionslFLCixJSxd7aeecn8aw3yCHP0Dq8lt9YFOLCfWGQVo"
+        "Ref": "NewLambdaVersionygVLggXB9mreRoowjf7wSznTEqBAwCeDgkkxsvtaYUQ"
       },
       "Export": {
-        "Name": "sls-fileservice-dev-UpLambdaFunctionQualifiedArn"
+        "Name": "sls-fileservice-dev-NewLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
