@@ -1,14 +1,12 @@
 service: fileservice
 frameworkVersion: "3"
 
-
 package:
   patterns:
   - 'node_modules/**'
 
 # plugins:
 #   - serverless-plugin-include-dependencies  
- 
 
 provider:
   name: aws
@@ -35,52 +33,40 @@ custom:
   bucketName: aws-demo-files
 
 functions:
-  putObjects:
-    handler:  src/services/s3/fileUploadService.handler
-    events:
-      - http:
-          path: /fileupload
-          method: post
-          cors: true  
-
-  getObjects:
-    handler: src/services/s3/s3.getFilesService.handler
-    events:
-      - http:
-          path: /file
-          method: get
-          cors: true
-
-    
+     
   getobjsignedurl:
-    handler: src/services/s3/s3.getFileUrlService.handler
+    handler: src/services/s3/getFileUrlService.handler
     events:
       - http:
           path: /getobjurl
           method: get
-          cors: true
-
-  multifileupload:
-    handler: src/services/s3/multiFileUpload.handler
-    events:
-      - http:
-          path: /multiupload
-          method: post
-          cors: true    
+          cors: true  
   
-  new:
-    handler: src/services/s3/new.handler
+  userRegisterService:
+    handler: src/services/s3/userRegisterService.handler
     events:
       - http:
-          path: /new
+          path: /user/register
           method: post
           cors: true          
-
-                                 
   
 
-   
-     
+  filesUploadServices:
+    handler: src/services/s3/filesUploadServices.handler
+    events:
+      - http:
+          path: /filesupload
+          method: post
+          cors: true            
+  
+  loginService:
+    handler: src/services/s3/loginService.handler
+    events:
+      - http:
+          path: /login
+          method: post
+          cors: true  
+      
 resources:
   Resources:
    MyS3Bucket:

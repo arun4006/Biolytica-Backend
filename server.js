@@ -20,12 +20,6 @@ app.use(cors());
 app.use(authRouter);
 app.use(fileServiceRouter);
 
-const multer = require('multer');
-
-const upload = multer({
-  dest: 'uploads/', // This is where the uploaded files will be stored
-});
-
 
 
 app.listen(ENV_CONSTANTS.PORT, () => {
