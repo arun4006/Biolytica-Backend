@@ -66,6 +66,7 @@ functions:
           path: /login
           method: post
           cors: true  
+  
       
 resources:
   Resources:

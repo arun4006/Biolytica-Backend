@@ -117,12 +117,6 @@
               "LogGroupName": "/aws/lambda/fileservice-dev-userRegisterService"
             }
           },
-          "GetFilesByLocationServiceLogGroup": {
-            "Type": "AWS::Logs::LogGroup",
-            "Properties": {
-              "LogGroupName": "/aws/lambda/fileservice-dev-getFilesByLocationService"
-            }
-          },
           "FilesUploadServicesLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -223,7 +217,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z/fileservice.zip"
               },
               "Handler": "src/services/s3/getFileUrlService.handler",
               "Runtime": "nodejs14.x",
@@ -253,7 +247,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z/fileservice.zip"
               },
               "Handler": "src/services/s3/userRegisterService.handler",
               "Runtime": "nodejs14.x",
@@ -276,36 +270,6 @@
               "UserRegisterServiceLogGroup"
             ]
           },
-          "GetFilesByLocationServiceLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-              "Code": {
-                "S3Bucket": {
-                  "Ref": "ServerlessDeploymentBucket"
-                },
-                "S3Key": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z/fileservice.zip"
-              },
-              "Handler": "src/services/s3/getFilesByLocationService.handler",
-              "Runtime": "nodejs14.x",
-              "FunctionName": "fileservice-dev-getFilesByLocationService",
-              "MemorySize": 1024,
-              "Timeout": 6,
-              "Environment": {
-                "Variables": {
-                  "bucketName": "aws-demo-files"
-                }
-              },
-              "Role": {
-                "Fn::GetAtt": [
-                  "IamRoleLambdaExecution",
-                  "Arn"
-                ]
-              }
-            },
-            "DependsOn": [
-              "GetFilesByLocationServiceLogGroup"
-            ]
-          },
           "FilesUploadServicesLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -313,7 +277,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z/fileservice.zip"
               },
               "Handler": "src/services/s3/filesUploadServices.handler",
               "Runtime": "nodejs14.x",
@@ -343,7 +307,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z/fileservice.zip"
+                "S3Key": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z/fileservice.zip"
               },
               "Handler": "src/services/s3/loginService.handler",
               "Runtime": "nodejs14.x",
@@ -366,54 +330,44 @@
               "LoginServiceLogGroup"
             ]
           },
-          "GetobjsignedurlLambdaVersionIwLUP4Ml0vY4nMSPWwjpj7mJI7aQTdSk6ZTRe5eHoE": {
+          "GetobjsignedurlLambdaVersion4CW7RlVDC5btINl8LtQ4huCqvBE2K9G3nuW4nN8AxY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetobjsignedurlLambdaFunction"
               },
-              "CodeSha256": "Yk6BzWUOfzaP4Ig7Cr+caA0u7bbX0Kq5z3DV+1xwhbQ="
+              "CodeSha256": "dPx4YUIU1BzeoCpSlXWlx2+3k1ShbXzd8OFY4Wj6gPo="
             }
           },
-          "UserRegisterServiceLambdaVersionKeMC3vuqZMH6GEF4erOvBrbX2BhfOI1ReA3HWjw": {
+          "UserRegisterServiceLambdaVersionOepa2MMGBH2P38qkaeM0mKbTmhLfzZyXn4Ik1Frm1F4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UserRegisterServiceLambdaFunction"
               },
-              "CodeSha256": "Yk6BzWUOfzaP4Ig7Cr+caA0u7bbX0Kq5z3DV+1xwhbQ="
+              "CodeSha256": "dPx4YUIU1BzeoCpSlXWlx2+3k1ShbXzd8OFY4Wj6gPo="
             }
           },
-          "GetFilesByLocationServiceLambdaVersionKC6ImTyEmypd4xsBHKmR02QM2AQC6TTWNwblyIQE": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "GetFilesByLocationServiceLambdaFunction"
-              },
-              "CodeSha256": "Yk6BzWUOfzaP4Ig7Cr+caA0u7bbX0Kq5z3DV+1xwhbQ="
-            }
-          },
-          "FilesUploadServicesLambdaVersionI6T51uy87kwnKwvDaxpI0OZz9JfARpEGFas2ezvkpg": {
+          "FilesUploadServicesLambdaVersionrdPVUOlIOLbVfrdI6jaoVNLt0bjf9yWs3fiviEuEU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "FilesUploadServicesLambdaFunction"
               },
-              "CodeSha256": "Yk6BzWUOfzaP4Ig7Cr+caA0u7bbX0Kq5z3DV+1xwhbQ="
+              "CodeSha256": "dPx4YUIU1BzeoCpSlXWlx2+3k1ShbXzd8OFY4Wj6gPo="
             }
           },
-          "LoginServiceLambdaVersion7vYgN3XIJHBUHOTfpGlo3pWE7UDbqgUQKL0Tvnvw": {
+          "LoginServiceLambdaVersionRGFoYQBgXqgvOOlW87swiPWHD0049MLVxKo4Wa2AxU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginServiceLambdaFunction"
               },
-              "CodeSha256": "Yk6BzWUOfzaP4Ig7Cr+caA0u7bbX0Kq5z3DV+1xwhbQ="
+              "CodeSha256": "dPx4YUIU1BzeoCpSlXWlx2+3k1ShbXzd8OFY4Wj6gPo="
             }
           },
           "ApiGatewayRestApi": {
@@ -465,33 +419,6 @@
                 "Ref": "ApiGatewayResourceUser"
               },
               "PathPart": "register",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceUsers": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Fn::GetAtt": [
-                  "ApiGatewayRestApi",
-                  "RootResourceId"
-                ]
-              },
-              "PathPart": "users",
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayResourceUsersFiles": {
-            "Type": "AWS::ApiGateway::Resource",
-            "Properties": {
-              "ParentId": {
-                "Ref": "ApiGatewayResourceUsers"
-              },
-              "PathPart": "files",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -611,51 +538,6 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceUserRegister"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              }
-            }
-          },
-          "ApiGatewayMethodUsersFilesOptions": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "AuthorizationType": "NONE",
-              "HttpMethod": "OPTIONS",
-              "MethodResponses": [
-                {
-                  "StatusCode": "200",
-                  "ResponseParameters": {
-                    "method.response.header.Access-Control-Allow-Origin": true,
-                    "method.response.header.Access-Control-Allow-Headers": true,
-                    "method.response.header.Access-Control-Allow-Methods": true
-                  },
-                  "ResponseModels": {}
-                }
-              ],
-              "RequestParameters": {},
-              "Integration": {
-                "Type": "MOCK",
-                "RequestTemplates": {
-                  "application/json": "{statusCode:200}"
-                },
-                "ContentHandling": "CONVERT_TO_TEXT",
-                "IntegrationResponses": [
-                  {
-                    "StatusCode": "200",
-                    "ResponseParameters": {
-                      "method.response.header.Access-Control-Allow-Origin": "'*'",
-                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
-                    },
-                    "ResponseTemplates": {
-                      "application/json": ""
-                    }
-                  }
-                ]
-              },
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceUsersFiles"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -844,52 +726,6 @@
               "UserRegisterServiceLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayMethodUsersFilesGet": {
-            "Type": "AWS::ApiGateway::Method",
-            "Properties": {
-              "HttpMethod": "GET",
-              "RequestParameters": {},
-              "ResourceId": {
-                "Ref": "ApiGatewayResourceUsersFiles"
-              },
-              "RestApiId": {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "ApiKeyRequired": false,
-              "AuthorizationType": "NONE",
-              "Integration": {
-                "IntegrationHttpMethod": "POST",
-                "Type": "AWS_PROXY",
-                "Uri": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":lambda:path/2015-03-31/functions/",
-                      {
-                        "Fn::GetAtt": [
-                          "GetFilesByLocationServiceLambdaFunction",
-                          "Arn"
-                        ]
-                      },
-                      "/invocations"
-                    ]
-                  ]
-                }
-              },
-              "MethodResponses": []
-            },
-            "DependsOn": [
-              "GetFilesByLocationServiceLambdaPermissionApiGateway"
-            ]
-          },
           "ApiGatewayMethodFilesuploadPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
@@ -982,7 +818,7 @@
               "LoginServiceLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1684160147971": {
+          "ApiGatewayDeployment1684241901401": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -993,12 +829,10 @@
             "DependsOn": [
               "ApiGatewayMethodGetobjurlOptions",
               "ApiGatewayMethodUserRegisterOptions",
-              "ApiGatewayMethodUsersFilesOptions",
               "ApiGatewayMethodFilesuploadOptions",
               "ApiGatewayMethodLoginOptions",
               "ApiGatewayMethodGetobjurlGet",
               "ApiGatewayMethodUserRegisterPost",
-              "ApiGatewayMethodUsersFilesGet",
               "ApiGatewayMethodFilesuploadPost",
               "ApiGatewayMethodLoginPost"
             ]
@@ -1046,43 +880,6 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "UserRegisterServiceLambdaFunction",
-                  "Arn"
-                ]
-              },
-              "Action": "lambda:InvokeFunction",
-              "Principal": "apigateway.amazonaws.com",
-              "SourceArn": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":execute-api:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":",
-                    {
-                      "Ref": "ApiGatewayRestApi"
-                    },
-                    "/*/*"
-                  ]
-                ]
-              }
-            }
-          },
-          "GetFilesByLocationServiceLambdaPermissionApiGateway": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-              "FunctionName": {
-                "Fn::GetAtt": [
-                  "GetFilesByLocationServiceLambdaFunction",
                   "Arn"
                 ]
               },
@@ -1229,7 +1026,7 @@
           "GetobjsignedurlLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetobjsignedurlLambdaVersionIwLUP4Ml0vY4nMSPWwjpj7mJI7aQTdSk6ZTRe5eHoE"
+              "Ref": "GetobjsignedurlLambdaVersion4CW7RlVDC5btINl8LtQ4huCqvBE2K9G3nuW4nN8AxY"
             },
             "Export": {
               "Name": "sls-fileservice-dev-GetobjsignedurlLambdaFunctionQualifiedArn"
@@ -1238,25 +1035,16 @@
           "UserRegisterServiceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UserRegisterServiceLambdaVersionKeMC3vuqZMH6GEF4erOvBrbX2BhfOI1ReA3HWjw"
+              "Ref": "UserRegisterServiceLambdaVersionOepa2MMGBH2P38qkaeM0mKbTmhLfzZyXn4Ik1Frm1F4"
             },
             "Export": {
               "Name": "sls-fileservice-dev-UserRegisterServiceLambdaFunctionQualifiedArn"
             }
           },
-          "GetFilesByLocationServiceLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "GetFilesByLocationServiceLambdaVersionKC6ImTyEmypd4xsBHKmR02QM2AQC6TTWNwblyIQE"
-            },
-            "Export": {
-              "Name": "sls-fileservice-dev-GetFilesByLocationServiceLambdaFunctionQualifiedArn"
-            }
-          },
           "FilesUploadServicesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "FilesUploadServicesLambdaVersionI6T51uy87kwnKwvDaxpI0OZz9JfARpEGFas2ezvkpg"
+              "Ref": "FilesUploadServicesLambdaVersionrdPVUOlIOLbVfrdI6jaoVNLt0bjf9yWs3fiviEuEU"
             },
             "Export": {
               "Name": "sls-fileservice-dev-FilesUploadServicesLambdaFunctionQualifiedArn"
@@ -1265,7 +1053,7 @@
           "LoginServiceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginServiceLambdaVersion7vYgN3XIJHBUHOTfpGlo3pWE7UDbqgUQKL0Tvnvw"
+              "Ref": "LoginServiceLambdaVersionRGFoYQBgXqgvOOlW87swiPWHD0049MLVxKo4Wa2AxU"
             },
             "Export": {
               "Name": "sls-fileservice-dev-LoginServiceLambdaFunctionQualifiedArn"
@@ -1422,7 +1210,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "GetobjsignedurlLambdaVersionIwLUP4Ml0vY4nMSPWwjpj7mJI7aQTdSk6ZTRe5eHoE"
+        "versionLogicalId": "GetobjsignedurlLambdaVersion4CW7RlVDC5btINl8LtQ4huCqvBE2K9G3nuW4nN8AxY"
       },
       "userRegisterService": {
         "handler": "src/services/s3/userRegisterService.handler",
@@ -1458,43 +1246,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "UserRegisterServiceLambdaVersionKeMC3vuqZMH6GEF4erOvBrbX2BhfOI1ReA3HWjw"
-      },
-      "getFilesByLocationService": {
-        "handler": "src/services/s3/getFilesByLocationService.handler",
-        "events": [
-          {
-            "http": {
-              "path": "users/files",
-              "method": "get",
-              "cors": {
-                "origin": "*",
-                "methods": [
-                  "OPTIONS",
-                  "GET"
-                ],
-                "headers": [
-                  "Content-Type",
-                  "X-Amz-Date",
-                  "Authorization",
-                  "X-Api-Key",
-                  "X-Amz-Security-Token",
-                  "X-Amz-User-Agent",
-                  "X-Amzn-Trace-Id"
-                ],
-                "allowCredentials": false
-              },
-              "integration": "AWS_PROXY"
-            }
-          }
-        ],
-        "name": "fileservice-dev-getFilesByLocationService",
-        "package": {},
-        "memory": 1024,
-        "timeout": 6,
-        "runtime": "nodejs14.x",
-        "vpc": {},
-        "versionLogicalId": "GetFilesByLocationServiceLambdaVersionKC6ImTyEmypd4xsBHKmR02QM2AQC6TTWNwblyIQE"
+        "versionLogicalId": "UserRegisterServiceLambdaVersionOepa2MMGBH2P38qkaeM0mKbTmhLfzZyXn4Ik1Frm1F4"
       },
       "filesUploadServices": {
         "handler": "src/services/s3/filesUploadServices.handler",
@@ -1530,7 +1282,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "FilesUploadServicesLambdaVersionI6T51uy87kwnKwvDaxpI0OZz9JfARpEGFas2ezvkpg"
+        "versionLogicalId": "FilesUploadServicesLambdaVersionrdPVUOlIOLbVfrdI6jaoVNLt0bjf9yWs3fiviEuEU"
       },
       "loginService": {
         "handler": "src/services/s3/loginService.handler",
@@ -1566,7 +1318,7 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "LoginServiceLambdaVersion7vYgN3XIJHBUHOTfpGlo3pWE7UDbqgUQKL0Tvnvw"
+        "versionLogicalId": "LoginServiceLambdaVersionRGFoYQBgXqgvOOlW87swiPWHD0049MLVxKo4Wa2AxU"
       }
     },
     "resources": {
@@ -1613,7 +1365,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/fileservice/dev/code-artifacts",
         "artifact": "E:\\Biolytica-Backend\\.serverless\\fileservice.zip",
-        "artifactDirectoryName": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z"
+        "artifactDirectoryName": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z"
       },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
@@ -1633,7 +1385,7 @@
     "artifact": "E:\\Biolytica-Backend\\.serverless\\fileservice.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fileservice/dev/1684160165793-2023-05-15T14:16:05.793Z",
+    "artifactDirectoryName": "serverless/fileservice/dev/1684241932452-2023-05-16T12:58:52.452Z",
     "artifact": "fileservice.zip"
   }
 }

@@ -13,10 +13,19 @@ const s3 = new AWS.S3();
 
 exports.handler = async (event) => {
   try {
+    const userTokenInfo = await getUserTokenInfo(event);
+    console.log("userTokenInfo Status:" + userTokenInfo);
+    if (userTokenInfo == "TOKEN_EXPIRED") {
+      return {
+        statusCode: ENV_CONSTANTS.UNAUTHORIZED,
+        body: JSON.stringify({ message: "Token is expired" }),
+      };
+    }
+
     const { filename, data } = extractFile(event);
     const bucketName = ENV_BUCKETCONSTANTS.bucketName;
     const objectKey = Date.now() + "_" + filename;
-    const params = {  
+    const params = {
       Bucket: bucketName,
       Key: objectKey,
       ACL: ENV_BUCKETCONSTANTS.bukcetACL,
@@ -26,17 +35,16 @@ exports.handler = async (event) => {
     console.log(fileuploadResponse);
     if (fileuploadResponse.ETag) {
       //console.log("success");
-      const userName = await getUserTokenInfo(event);
-      console.log("userName:" + userName);
-      const userData = await getuserProfileInfo(userName);
+
+      const userData = await getuserProfileInfo(userTokenInfo);
       console.log("userData" + userData.userLocation);
-      const tableResponse = await addFileMetaInTable([
+      const filetableResponse = await addFileMetaInTable([
         objectKey,
         `https://${bucketName}.s3.amazonaws.com/${objectKey}`,
         userData.userName,
         userData.userLocation,
       ]);
-      console.log("tableResponse:" + tableResponse);
+      console.log("filetableResponse:" + filetableResponse);
     }
 
     return {
@@ -47,8 +55,8 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         message: ENV_BUCKETCONSTANTS.SUCESSFILEUPLOAD_MSG,
-        res: fileuploadResponse,
-        imageUrl: `https://${bucketName}.s3.amazonaws.com/${objectKey}`,
+        //  res: fileuploadResponse,
+       imageUrl: `https://${bucketName}.s3.amazonaws.com/${objectKey}`
       }),
     };
   } catch (err) {
@@ -90,7 +98,7 @@ const getUserTokenInfo = async (event) => {
     userPoolId: ENV_COGNITOCONSTANTS.USERPOOL_ID,
     tokenUse: ENV_COGNITOCONSTANTS.TOKEN_USE,
     clientId: ENV_COGNITOCONSTANTS.CLIENT_ID,
-   // scope: ENV_COGNITOCONSTANTS.SCOPE,
+    // scope: ENV_COGNITOCONSTANTS.SCOPE,
   });
 
   const useraccessToken = accessToken.split(" ")[1];
@@ -101,7 +109,7 @@ const getUserTokenInfo = async (event) => {
     return userPayload.username;
   } catch (err) {
     console.log(err);
-    return "Token is expired";
+    return "TOKEN_EXPIRED";
   }
 };
 
