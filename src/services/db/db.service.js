@@ -11,7 +11,7 @@ exports.getuserProfileInfo = async (data) => {
   
     try {
       const getPofileDataByUser = await query(
-        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE username = ?`,
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE userid = ?`,
         [data]
       );
   
@@ -22,7 +22,7 @@ exports.getuserProfileInfo = async (data) => {
         return notFoundResponse(ENV_CONSTANTS.NOTFOUND,"User not found");
       }
       return {
-        userName: getPofileDataByUser[0].username,
+        userName: getPofileDataByUser[0].userid,
         userLocation: getPofileDataByUser[0].location,
       };
     } catch (err) {
