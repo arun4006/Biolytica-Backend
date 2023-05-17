@@ -35,37 +35,29 @@ custom:
 functions:
      
   getobjsignedurl:
-    handler: src/services/s3/getFileUrlService.handler
+    handler: src/api/getallFiles.handler
     events:
       - http:
           path: /getobjurl
           method: get
           cors: true  
-  
+
+  fileUploadService:
+    handler: src/api/fileUpload.handler
+    events:
+      - http:
+          path: /fileupload
+          method: post
+          cors: true   
+
   userRegisterService:
-    handler: src/services/s3/userRegisterService.handler
+    handler: src/api/userRegister.handler
     events:
       - http:
           path: /user/register
           method: post
-          cors: true          
+          cors: true                          
   
-
-  filesUploadServices:
-    handler: src/services/s3/filesUploadServices.handler
-    events:
-      - http:
-          path: /filesupload
-          method: post
-          cors: true            
-  
-  loginService:
-    handler: src/services/s3/loginService.handler
-    events:
-      - http:
-          path: /login
-          method: post
-          cors: true  
   
       
 resources:

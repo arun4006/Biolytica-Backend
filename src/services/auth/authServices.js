@@ -1,51 +1,28 @@
-const request = require("request");
-const AWS = require("aws-sdk");
-const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-const {ENV_COGNITOCONSTANTS}=require('../../constants/env.cognitoConstants')
+const {ENV_COGNITOCONSTANTS}=require('../../constants/env.cognitoConstants');
+const { CognitoJwtVerifier } = require("aws-jwt-verify");
 
-exports.login = async (req, res) => {
-  res.send("hello");
-};
 
-exports.generateToken = async (req, res) => {
-  const code = req.query.code;
+exports.getUserTokenInfo = async (event) => {
+  let accessToken = event.headers.Authorization;
 
-  const options = {
-    url: `https://${ENV_COGNITOCONSTANTS.COGNITO_DOMAIN}.auth.us-east-1.amazoncognito.com/oauth2/token`,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    form: {
-      grant_type: "authorization_code",
-      client_id: ENV_COGNITOCONSTANTS.CLIENT_ID,
-      client_secret: ENV_COGNITOCONSTANTS.CLIENT_SECRET,
-      redirect_uri: ENV_COGNITOCONSTANTS.REDIRECT_URI,
-      code: code,
-    },
-  };
-
-  request.post(options, async (error, response, body) => {
-    if (error) {
-      console.error(error);
-      res.send(error);
-    } else {
-      const accessToken = JSON.parse(body).access_token;
-      console.log(accessToken);
-      res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-      });
-      res.redirect("/fileUpload");
-      
-    }
-  });
-};
-
-exports.logout = async (req, res) => {
-  res.cookie("accessToken", "none", {
-    httpOnly: true,
+  const verifier = CognitoJwtVerifier.create({
+    userPoolId: ENV_COGNITOCONSTANTS.USERPOOL_ID,
+    tokenUse: ENV_COGNITOCONSTANTS.TOKEN_USE,
+    clientId: ENV_COGNITOCONSTANTS.CLIENT_ID,
+    // scope: ENV_COGNITOCONSTANTS.SCOPE,
   });
 
-  res.render("logout");
+  const useraccessToken = accessToken.split(" ")[1];
+  try {
+    //console.log("token type:" + typeof useraccessToken);
+    const userPayload = await verifier.verify(useraccessToken);
+    console.log("Token is valid. Payload:", userPayload);
+    return userPayload.username;
+  } catch (err) {
+    console.log(err);
+    return "TOKEN_EXPIRED";
+  }
 };
+
+
+
