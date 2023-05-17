@@ -76,7 +76,7 @@ exports.getuserProfileInfo = async (data) => {
      };
     } catch (err) {
       console.log("error:" + err);
-      return errorResponse(500,err);
+      return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR,err);
     }
   };
   
