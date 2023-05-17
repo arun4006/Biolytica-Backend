@@ -15,7 +15,7 @@ exports.getuserProfileInfo = async (data) => {
         [data]
       );
   
-      console.log("getPofileDataByUser:" + getPofileDataByUser[0].username);
+      console.log("getPofileDataByUser:" + getPofileDataByUser[0].name);
       console.log("type getPofileDataByUser:" + getPofileDataByUser.length);
       //console.log("getPofileDataByUser:" + JSON.stringify(getPofileDataByUser));
       if (getPofileDataByUser.length == 0) {
