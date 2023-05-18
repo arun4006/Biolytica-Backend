@@ -56,7 +56,16 @@ functions:
       - http:
           path: /user/register
           method: post
-          cors: true                          
+          cors: true   
+
+  
+  getFilesLocationService:
+    handler: src/api/getFilesByLocation.handler
+    events:
+      - http:
+          path: /getfilesbylocation
+          method: get
+          cors: true                                    
   
   
       

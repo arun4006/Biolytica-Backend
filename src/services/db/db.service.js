@@ -24,6 +24,7 @@ exports.getuserProfileInfo = async (data) => {
       return {
         userName: getPofileDataByUser[0].userid,
         userLocation: getPofileDataByUser[0].location,
+        signedUsername:getPofileDataByUser[0].name
       };
     } catch (err) {
       console.log("error:" + err);
@@ -80,3 +81,27 @@ exports.getuserProfileInfo = async (data) => {
     }
   };
   
+
+  exports.getFilesbyuserLocation = async (data) => {
+    const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
+    console.log("query:" + query);
+    try 
+    {
+      const filesbyUserLocation = await query(
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_IMAGES} WHERE location = ?`,
+        [data]
+      );
+  
+      console.log("filesbyuserLocation:" + filesbyUserLocation);
+      if (filesbyUserLocation.length == 0) {
+        return {
+          status: "error",
+          message: "Data not found",
+        };
+      }
+      return filesbyUserLocation;
+    } catch (err) {
+      console.log("error:" + err);
+      return err;
+    }
+  };
