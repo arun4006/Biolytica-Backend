@@ -10,21 +10,23 @@ exports.getuserProfileInfo = async (data) => {
     console.log("query:" + query);
   
     try {
-      const getPofileDataByUser = await query(
+      const getProfileDataByUser = await query(
         `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE userid = ?`,
         [data]
       );
   
-      console.log("getPofileDataByUser:" + getPofileDataByUser[0].name);
-      console.log("type getPofileDataByUser:" + getPofileDataByUser.length);
-      //console.log("getPofileDataByUser:" + JSON.stringify(getPofileDataByUser));
-      if (getPofileDataByUser.length == 0) {
+      console.log("getProfileDataByUser:" + getProfileDataByUser[0].id);
+      // console.log("getProfileDataByUser 1:" + getProfileDataByUser[0].location);
+      // console.log("getProfileDataByUser 2:" + getProfileDataByUser[0].name);
+      console.log("length of getProfileDataByUser:" + getProfileDataByUser.length);
+      //console.log("getPofileDataByUser:" + JSON.stringify(getProfileDataByUser));
+      if (getProfileDataByUser.length == 0) {
         return notFoundResponse(ENV_CONSTANTS.NOTFOUND,"User not found");
       }
       return {
-        userName: getPofileDataByUser[0].userid,
-        userLocation: getPofileDataByUser[0].location,
-        signedUsername:getPofileDataByUser[0].name
+         userName: getProfileDataByUser[0].id,
+         userLocation: getProfileDataByUser[0].location,
+         signedUsername: getProfileDataByUser[0].name
       };
     } catch (err) {
       console.log("error:" + err);
@@ -105,3 +107,51 @@ exports.getuserProfileInfo = async (data) => {
       return err;
     }
   };
+
+
+  exports.getAllStates= async () => {
+    const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
+    console.log("query:" + query);
+    try 
+    {
+      const statesList = await query(
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_STATESLIST}`
+      );
+  
+      console.log("statesList:" + statesList);
+      if (statesList.length == 0) {
+        return {
+          status: "error",
+          message: "Data not found",
+        };
+      }
+      return statesList;
+    } catch (err) {
+      console.log("error:" + err);
+      return err;
+    }
+  }
+
+  exports.getAllDistricts= async (data) => {
+    const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
+    console.log("query:" + query);
+    try 
+    {
+      const districtList = await query(
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_DISTRICTLIST} WHERE stateId = ?`,
+        [data]
+      );
+  
+      console.log("districtList:" + districtList);
+      if (districtList.length == 0) {
+        return {
+          status: "error",
+          message: "Data not found",
+        };
+      }
+      return districtList;
+    } catch (err) {
+      console.log("error:" + err);
+      return err;
+    }
+  }

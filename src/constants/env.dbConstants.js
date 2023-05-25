@@ -1,10 +1,12 @@
 const ENV_DBCONSTANTS = {
-  HOST: 'database-3.cdgkfoacvf6u.us-east-1.rds.amazonaws.com',
+  HOST: 'files.cdgkfoacvf6u.us-east-1.rds.amazonaws.com',
   USER: 'admin',
-  PASSWORD:'qwerty1234',
-  DATABASE: 'my_db',
+  PASSWORD:'Test1234',
+  DATABASE: 'file_management_db',
   TABLENAME_IMAGES:'Imageinfo',
   TABLENAME_USERPROFILE:'UserProfile',
+  TABLENAME_STATESLIST:'statesList',
+  TABLENAME_DISTRICTLIST:'districtList',
   PORT:'3306'
   };
   

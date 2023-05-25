@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     console.log(fileuploadResponse.isUploaded);
     if (fileuploadResponse.isUploaded) {
       const userData = await getuserProfileInfo(userTokenInfo);
-      console.log(userData);
+      console.log("--userData--"+userData.userName);
       const filetableResponse = await addFileMetaInTable([
         fileuploadResponse.fileName,
         fileuploadResponse.fileUri,

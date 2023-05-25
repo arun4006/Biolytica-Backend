@@ -65,9 +65,25 @@ functions:
       - http:
           path: /getfilesbylocation
           method: get
-          cors: true                                    
-  
-  
+          cors: true 
+
+  ListStatesService:
+    handler: src/api/getAllStates.handler
+    events:
+      - http:
+          path: /getstates
+          method: get
+          cors: true 
+
+  ListDistrictsService:
+    handler: src/api/getDistrictsByStates.handler
+    events:
+      - http:
+          path: /getdistricts
+          method: get
+          cors: true         
+
+
       
 resources:
   Resources:
