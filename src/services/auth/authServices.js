@@ -1,6 +1,8 @@
-const {ENV_COGNITOCONSTANTS}=require('../../constants/env.cognitoConstants');
+const {
+  ENV_COGNITOCONSTANTS,
+} = require("../../constants/env.cognitoConstants");
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
-
+const Log = require("../../utils/logging");
 
 exports.getUserTokenInfo = async (event) => {
   let accessToken = event.headers.Authorization;
@@ -14,15 +16,12 @@ exports.getUserTokenInfo = async (event) => {
 
   const useraccessToken = accessToken.split(" ")[1];
   try {
-    //console.log("token type:" + typeof useraccessToken);
     const userPayload = await verifier.verify(useraccessToken);
-    console.log("Token is valid. Payload:", userPayload);
+    Log.info("Token is valid. Payload:", userPayload);
     return userPayload.username;
   } catch (err) {
-    console.log(err);
+    Log.error(err);
+    //console.log(err);
     return "TOKEN_EXPIRED";
   }
 };
-
-
-

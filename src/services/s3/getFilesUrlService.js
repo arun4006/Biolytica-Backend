@@ -3,6 +3,7 @@ const { ENV_BUCKETCONSTANTS } = require("../../constants/env.bucketConstants");
 const { ENV_CONSTANTS } = require("../../constants/env.constants");
 const { notFoundResponse } = require("../../utils/response");
 const s3 = new AWS.S3();
+const Log=require('../../utils/logging');
 
 exports.getFilesUrl = async () => {
   try {
@@ -14,13 +15,14 @@ exports.getFilesUrl = async () => {
       fileName: obj.Key,
       url: fileSignedurl(obj.Key),
     }));
-    return objList;
-    console.log(objList);
+    Log.info(objList);
     if (objList.length == 0) {
       return notFoundResponse(404, "Users not Found");
     }
+    return objList;
+      
   } catch (err) {
-    console.log(err);
+    Log.error(err);
   }
 };
 

@@ -8,33 +8,37 @@ const { uploadFiles } = require("../services/s3/fileUploadService");
 const { successResponse,errorResponse } = require("../utils/response");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
+const Log= require("../utils/logging")
 
 exports.handler = async (event) => {
   try {
     const userTokenInfo = await getUserTokenInfo(event);
-    console.log("userTokenInfo Status:" + userTokenInfo);
+    Log.info("userTokenInfo Status:" + userTokenInfo);    
     if (userTokenInfo == "TOKEN_EXPIRED") {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
     const fileuploadResponse = await uploadFiles(event);
-    console.log(fileuploadResponse.isUploaded);
+    Log.info(fileuploadResponse.isUploaded);
+
     if (fileuploadResponse.isUploaded) {
       const userData = await getuserProfileInfo(userTokenInfo);
-      console.log("--userData--"+userData.userName);
+      Log.info("--userData--"+userData.userName);
+      
       const filetableResponse = await addFileMetaInTable([
         fileuploadResponse.fileName,
         fileuploadResponse.fileUri,
         userData.userName,
         userData.userLocation,
       ]);
-      console.log("filetableResponse:" + filetableResponse);
+      Log.info("filetableResponse:" + filetableResponse);
+    
     }
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,
       fileuploadResponse
     );
   } catch (err) {
-    console.log(err);
+    Log.error(err);
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR,err.stack)
   }
 };
