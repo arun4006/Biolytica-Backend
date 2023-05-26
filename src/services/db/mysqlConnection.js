@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const {ENV_DBCONSTANTS}=require('../../constants/env.dbConstants')
 const Log=require('../../utils/logging')
-const mysqlConnection = mysql.createConnection({
+const mysqlConnection = mysql.createPool({
  host: ENV_DBCONSTANTS.HOST,
  user: ENV_DBCONSTANTS.USER,
  password: ENV_DBCONSTANTS.PASSWORD,
@@ -10,7 +10,7 @@ const mysqlConnection = mysql.createConnection({
  connectTimeout : 60000
 });
 
-mysqlConnection.connect((err) => {
+mysqlConnection.getConnection((err) => {
     if (err) {
       Log.error('Error connecting to MySQL database: ', err);
       return;
