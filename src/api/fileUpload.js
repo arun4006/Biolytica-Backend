@@ -17,6 +17,7 @@ exports.handler = async (event) => {
     if (userTokenInfo == "TOKEN_EXPIRED") {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
+    console.log("event"+event);
     const fileuploadResponse = await uploadFiles(event);
     Log.info(fileuploadResponse.isUploaded);
 
