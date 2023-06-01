@@ -48,7 +48,7 @@ functions:
       - http:
           path: /fileupload
           method: post
-          cors: true   
+          cors: true
 
   userRegisterService:
     handler: src/api/userRegister.handler
@@ -56,9 +56,9 @@ functions:
       - http:
           path: /user/register
           method: post
-          cors: true   
+          cors: true 
+             
 
-  
   getFilesLocationService:
     handler: src/api/getFilesByLocation.handler
     events:

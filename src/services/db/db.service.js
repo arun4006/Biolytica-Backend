@@ -60,8 +60,8 @@ exports.getuserProfileInfo = async (data) => {
   
     try {
       const addnewUser = await query(
-        `INSERT INTO ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} (userid,location,email,name) VALUES(?, ?, ?,?)`,
-        [data.usersub, data.locale, data.email,data.name]
+        `INSERT INTO ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} (userid,email,name,hobbies,bio,profilepic,stateId,districtId) VALUES(?, ?, ?,?)`,
+        [data[0], data[1], data[2],data[3],data[4],data[5],data[6],data[7]]
       );
       
       Log.info("addnewUser:" + addnewUser);
