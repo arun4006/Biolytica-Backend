@@ -152,3 +152,28 @@ exports.getuserProfileInfo = async (data) => {
       return err;
     }
   }
+
+
+  exports.updateUserPostCount=async(data) =>{
+    const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
+    Log.info("query:" + query);
+    try 
+    {
+      const updatePostCount = await query(
+        `UPDATE ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} SET num_posts=num_posts+1 WHERE id = ?`,
+        [data]
+      );
+
+      Log.info("updatePostCount:" + updatePostCount);
+      if (updatePostCount.length == 0) {
+        return {
+          status: "error",
+          message: "Data not found",
+        };
+      }
+      return updatePostCount;
+    } catch (err) {
+      Log.error("error:" + err);
+      return err;
+    }
+  }

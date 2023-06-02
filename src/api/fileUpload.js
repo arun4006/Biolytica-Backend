@@ -2,6 +2,7 @@ const { getUserTokenInfo } = require("../services/auth/authServices");
 const {
   getuserProfileInfo,
   addFileMetaInTable,
+  updateUserPostCount
 } = require("../services/db/db.service");
 const { unauthorizedResponse } = require("../utils/response");
 const { uploadFiles } = require("../services/s3/fileUploadService");
@@ -17,7 +18,7 @@ exports.handler = async (event) => {
     if (userTokenInfo == "TOKEN_EXPIRED") {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
-    console.log("event"+event);
+    
     const fileuploadResponse = await uploadFiles(event);
     Log.info(fileuploadResponse.isUploaded);
 
@@ -32,7 +33,9 @@ exports.handler = async (event) => {
         userData.userLocation,
       ]);
       Log.info("filetableResponse:" + filetableResponse);
-    
+     
+      const updatePostCountByUser=await updateUserPostCount(userData.userName);
+      Log.info("updatePostCountByUser:" + updatePostCountByUser);
     }
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,
