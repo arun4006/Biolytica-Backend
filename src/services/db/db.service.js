@@ -24,7 +24,8 @@ exports.getuserProfileInfo = async (data) => {
       return {
          userName: getProfileDataByUser[0].id,
          userLocation: getProfileDataByUser[0].location,
-         signedUsername: getProfileDataByUser[0].name
+         signedUsername: getProfileDataByUser[0].name,
+         isAdmin:getProfileDataByUser[0].isAdmin
       };
     } catch (err) {
       Log.error("error:" + err);
@@ -177,3 +178,29 @@ exports.getuserProfileInfo = async (data) => {
       return err;
     }
   }
+
+
+  exports.getUsersbyAdmin = async () => {
+    const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
+    Log.error("query:" + query);
+
+    try 
+    {
+      const UserbyAdmin = await query(
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE isAdmin = 'false'  `,
+        
+      );
+      Log.info("UserbyAdmin:" + UserbyAdmin);
+
+      if (UserbyAdmin.length == 0) {
+        return {
+          status: "error",
+          message: "Data not found",
+        };
+      }
+      return UserbyAdmin;
+    } catch (err) {
+     Log.error("error:" + err);
+      return err;
+    }
+};

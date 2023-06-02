@@ -81,7 +81,16 @@ functions:
       - http:
           path: /getdistricts
           method: get
-          cors: true         
+          cors: true  
+
+
+  ListUsersAdmin:
+    handler: src/api/getUsersByAdmin.handler
+    events:
+      - http:
+          path: /getuserbyadmin
+          method: get
+          cors: true      
 
 
       
