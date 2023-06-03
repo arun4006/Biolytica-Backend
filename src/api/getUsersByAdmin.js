@@ -25,7 +25,7 @@ exports.handler = async (event) => {
     else {
       Log.info("you are not admin");
       return unauthorizedResponse(
-        ENV_CONSTANTS.unauthorizedResponse,
+        ENV_CONSTANTS.UNAUTHORIZED,
         "You are not authorized to access admin page"
       );
     }

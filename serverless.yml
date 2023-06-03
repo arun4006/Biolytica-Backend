@@ -90,10 +90,9 @@ functions:
       - http:
           path: /getuserbyadmin
           method: get
-          cors: true      
+          cors: true 
 
-
-      
+                
 resources:
   Resources:
    MyS3Bucket:

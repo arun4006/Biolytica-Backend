@@ -32,42 +32,19 @@ const extractFile = (event) => {
 };
 
 
-const extractFilesAndData= (event) => {
- 
-  const Content_Type= event.headers["Content-Type"] ||  event.headers["content-type"] ;
-
-  const boundary = parseMultipart.getBoundary(Content_Type);
-    const parts = parseMultipart.Parse(Buffer.from(event.body, 'base64'), boundary);
-    const [{ filename, data }] = parts;
-  
-    const keyValuePairs = {};
-    for (const part of parts) {
-      const { name, value } = part;
-      console.log("name"+name);
-      keyValuePairs[name] = value;
-    }
-  
-    const formData = JSON.parse(keyValuePairs); 
-    console.log("formData"+formData);
-    
-    return {
-      filename,
-      data,
-      keyValuePairs,
-      formData
-    };
-
-  
+const emptyProfile= () => {
+ return {
+  filename:'emptyProfile.png',
+  fileUri:'https://aws-demo-files.s3.amazonaws.com/emptyProfile.png',
+  isUploaded:'true'
+ }
 }
-
-
 
 
 
 module.exports = {
   extractFile,
-  extractFilesAndData,
-  
+  emptyProfile  
 };
 
 
