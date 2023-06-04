@@ -24,13 +24,13 @@ exports.handler = async (event) => {
 
     if (fileuploadResponse.isUploaded) {
       const userData = await getuserProfileInfo(userTokenInfo);
-      Log.info("--userData--"+userData.userName);
+      Log.info("--userData--"+userData.name);
       
       const filetableResponse = await addFileMetaInTable([
         fileuploadResponse.fileName,
         fileuploadResponse.fileUri,
-        userData.userName,
-        userData.userLocation,
+        userData.name,
+        userData.district,
       ]);
       Log.info("filetableResponse:" + filetableResponse);
      

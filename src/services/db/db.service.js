@@ -21,12 +21,7 @@ exports.getuserProfileInfo = async (data) => {
       if (getProfileDataByUser.length == 0) {
         return notFoundResponse(ENV_CONSTANTS.NOTFOUND,"User not found");
       }
-      return {
-         userName: getProfileDataByUser[0].id,
-         userLocation: getProfileDataByUser[0].location,
-         signedUsername: getProfileDataByUser[0].name,
-         isAdmin:getProfileDataByUser[0].isAdmin
-      };
+      return getProfileDataByUser[0];      
     } catch (err) {
       Log.error("error:" + err);
       return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR,err);
@@ -61,7 +56,7 @@ exports.getuserProfileInfo = async (data) => {
   
     try {
       const addnewUser = await query(
-        `INSERT INTO ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} (name,email,userid,hobbies,bio,profilepic,districtId,stateId) VALUES(?, ?, ?,?,?,?,?,?)`,
+        `INSERT INTO ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} (name,email,userid,hobbies,bio,profilepic,district,state) VALUES(?, ?, ?,?,?,?,?,?)`,
         [data[0], data[1], data[2],data[3],data[4],data[5],data[6],data[7]]
       );
       
@@ -204,3 +199,35 @@ exports.getuserProfileInfo = async (data) => {
       return err;
     }
 };
+
+exports.updateUser=async(reqBody,profileImageUpload,id) =>{
+  const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
+  Log.info("query:" + query);
+  try 
+  {
+    const updateUserProfile = await query(
+      `UPDATE ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} SET name=reqBody.name,
+                                                           email:reqBody.email,
+                                                           userid:reqBody.userId,
+                                                           hobbies:reqBody.hobbies,
+                                                           bio:reqBody.bio,
+                                                           district:reqBody.district,
+                                                           state:reqBody.state,
+                                                           profilepic:profileImageUpload                                                        
+      WHERE id = ?`,
+      [id]
+    );
+
+    Log.info("updateUserProfile:" + updateUserProfile);
+    if (updateUserProfile.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return updateUserProfile;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+}

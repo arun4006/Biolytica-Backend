@@ -91,6 +91,22 @@ functions:
           path: /getuserbyadmin
           method: get
           cors: true 
+  
+  isAdminService:
+    handler: src/api/isAdmin.handler
+    events:
+      - http:
+          path: /isadmin
+          method: get
+          cors: true 
+  
+  editUserProfileService:
+    handler: src/api/editUserProfile.handler
+    events:
+      - http:
+          path: /user/edit/{id}
+          method: put
+          cors: true 
 
                 
 resources:

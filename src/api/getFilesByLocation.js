@@ -13,12 +13,16 @@ exports.handler = async (event) => {
         return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
       }
       const userProfile = await getuserProfileInfo(userTokenInfo);
-      Log.info(userProfile.userLocation);
+      Log.info(userProfile.district);
+      const userData={
+        userLocation: userProfile.district,
+        signedUsername: userProfile.name
+      }
       
       const filesbyUserLocation=await getFilesbyuserLocation(userProfile.userLocation);
       const response={
         files:filesbyUserLocation,
-        user:userProfile
+        user:userData
       }
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,

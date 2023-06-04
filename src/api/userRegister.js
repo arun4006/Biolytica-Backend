@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
   } else {
     profileImageUpload = await uploadProfilePic(
       reqBody.files[0].filename,
-      reqBody.files[0].content
+      reqBody.files[0].content    
     );
   }
 
