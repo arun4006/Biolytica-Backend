@@ -9,6 +9,7 @@ const { uploadFiles } = require("../services/s3/fileUploadService");
 const { successResponse,errorResponse } = require("../utils/response");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
+const {extractFile}=require('../helper/index')
 const Log= require("../utils/logging")
 
 exports.handler = async (event) => {
@@ -18,8 +19,9 @@ exports.handler = async (event) => {
     if (userTokenInfo == "TOKEN_EXPIRED") {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
-    
-    const fileuploadResponse = await uploadFiles(event);
+    const { filename, data } = extractFile(event);
+    const fileuploadResponse = await uploadFiles(filename,data);
+    //const fileuploadResponse = await uploadFiles(event);
     Log.info(fileuploadResponse.isUploaded);
 
     if (fileuploadResponse.isUploaded) {
@@ -29,12 +31,12 @@ exports.handler = async (event) => {
       const filetableResponse = await addFileMetaInTable([
         fileuploadResponse.fileName,
         fileuploadResponse.fileUri,
-        userData.name,
+        userData.id,
         userData.district,
       ]);
       Log.info("filetableResponse:" + filetableResponse);
      
-      const updatePostCountByUser=await updateUserPostCount(userData.userName);
+      const updatePostCountByUser=await updateUserPostCount(userData.id);
       Log.info("updatePostCountByUser:" + updatePostCountByUser);
     }
     return successResponse(

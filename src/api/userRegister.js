@@ -1,5 +1,5 @@
 const parser = require("lambda-multipart-parser");
-const { uploadProfilePic } = require("../services/s3/fileUploadService");
+const { uploadFiles } = require("../services/s3/fileUploadService");
 const { addUserMetaInTable } = require("../services/db/db.service");
 const { ENV_COGNITOCONSTANTS } = require("../constants/env.cognitoConstants");
 const { successResponse, errorResponse } = require("../utils/response");
@@ -14,7 +14,7 @@ exports.handler = async (event, context) => {
     //if file did not uplaod ,set default empty profile image
     profileImageUpload = emptyProfile();
   } else {
-    profileImageUpload = await uploadProfilePic(
+    profileImageUpload = await uploadFiles(
       reqBody.files[0].filename,
       reqBody.files[0].content    
     );

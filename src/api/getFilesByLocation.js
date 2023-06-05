@@ -19,7 +19,7 @@ exports.handler = async (event) => {
         signedUsername: userProfile.name
       }
       
-      const filesbyUserLocation=await getFilesbyuserLocation(userProfile.userLocation);
+      const filesbyUserLocation=await getFilesbyuserLocation(userData.userLocation);
       const response={
         files:filesbyUserLocation,
         user:userData
