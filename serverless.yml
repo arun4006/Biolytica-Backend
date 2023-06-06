@@ -107,6 +107,14 @@ functions:
           path: /user/edit/{id}
           method: put
           cors: true 
+    
+  getUserService:
+    handler: src/api/getUser.handler
+    events:
+      - http:
+          path: /user/{id}
+          method: get
+          cors: true 
 
                 
 resources:
