@@ -249,3 +249,30 @@ exports.getUser = async (id) => {
     return err;
   }
 };
+
+
+
+exports.deleteUser = async (id) => {
+  const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
+  Log.error("query:" + query);
+
+  try 
+  {
+    const deleteUser = await query(
+      `DELETE * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE id = ${id} `,
+      
+    );
+    Log.info("deleteUser:" + deleteUser);
+
+    if (deleteUser.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return deleteUser;
+  } catch (err) {
+   Log.error("error:" + err);
+    return err;
+  }
+};

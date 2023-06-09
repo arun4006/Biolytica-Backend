@@ -1,8 +1,10 @@
 const {
-  ENV_COGNITOCONSTANTS,
+ENV_COGNITOCONSTANTS,
 } = require("../../constants/env.cognitoConstants");
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
 const Log = require("../../utils/logging");
+const cognito = new AWS.CognitoIdentityServiceProvider();
+const {ENV_CONSTANTS} = require("../../constants/env.constants")
 
 exports.getUserTokenInfo = async (event) => {
   let accessToken = event.headers.Authorization;
@@ -23,5 +25,20 @@ exports.getUserTokenInfo = async (event) => {
     Log.error(err);
     //console.log(err);
     return "TOKEN_EXPIRED";
+  }
+};
+
+exports.removeUser = async (username) => {
+  const params =
+  {
+    UserPoolId: ENV_COGNITOCONSTANTS.USERPOOL_ID,
+    Username: username
+  };
+  try {
+    const removeUser = await cognito.adminDeleteUser(params).promise();
+    Log.info(removeUser);
+    return removeUser;
+  } catch (err) {
+    return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err.stack)
   }
 };
