@@ -14,12 +14,21 @@ exports.handler = async (event) => {
     }
     const userProfile = await getuserProfileInfo(userTokenInfo);
     Log.info(userProfile);
+    const userData={
+      userLocation: userProfile.district,
+      signedUsername: userProfile.name,
+      profilePic:userProfile.profilepic
+    }
 
     if (userProfile.isAdmin == 'true') {
       const usersList = await getUsersbyAdmin();
+      const response={
+        userList:usersList,
+        user:userData
+      }
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
-        usersList
+        response
       );
     }
     else {

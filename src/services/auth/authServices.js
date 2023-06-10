@@ -1,9 +1,10 @@
+const AWS = require("aws-sdk");
+const cognito = new AWS.CognitoIdentityServiceProvider();
 const {
 ENV_COGNITOCONSTANTS,
 } = require("../../constants/env.cognitoConstants");
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
 const Log = require("../../utils/logging");
-const cognito = new AWS.CognitoIdentityServiceProvider();
 const {ENV_CONSTANTS} = require("../../constants/env.constants")
 
 exports.getUserTokenInfo = async (event) => {
@@ -41,4 +42,5 @@ exports.removeUser = async (username) => {
   } catch (err) {
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err.stack)
   }
-};
+}; 
+
