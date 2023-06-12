@@ -19,7 +19,7 @@ exports.handler = async (event) => {
       signedUsername: userProfile.name,
       profilePic:userProfile.profilepic
     }
-
+    Log.info("typeof isadmin"+typeof userProfile.isAdmin);
     if (userProfile.isAdmin == 'true') {
       const usersList = await getUsersbyAdmin();
       const response={
