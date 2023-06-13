@@ -1,11 +1,10 @@
 const AWS = require("aws-sdk");
 const cognito = new AWS.CognitoIdentityServiceProvider();
-const {
-ENV_COGNITOCONSTANTS,
-} = require("../../constants/env.cognitoConstants");
+const { ENV_COGNITOCONSTANTS } = require("../../constants/env.cognitoConstants");
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
 const Log = require("../../utils/logging");
-const {ENV_CONSTANTS} = require("../../constants/env.constants")
+const {ENV_CONSTANTS} = require("../../constants/env.constants");
+const {getUser}=require('../db/db.service')
 
 exports.getUserTokenInfo = async (event) => {
   let accessToken = event.headers.Authorization;
@@ -44,3 +43,8 @@ exports.removeUser = async (username) => {
   }
 }; 
 
+exports.isOwnProfile= async (reqUserId,currentUserId) => {
+   const userData=await getUser(currentUserId);
+   const result=userData[0].userid === reqUserId;
+   return result;
+}

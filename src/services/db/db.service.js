@@ -200,15 +200,15 @@ exports.getuserProfileInfo = async (data) => {
     }
 };
 
-exports.updateUser=async(reqBody,profileImageUpload,id) =>{
+exports.updateUser=async(reqBody,id) =>{
   const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
 
   Log.info("query:" + query);
   try 
   {
     const updateUserProfile = await query(
-      `UPDATE ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} SET name = ?, email = ?,userid= ?,hobbies= ?,bio= ?,profilepic= ?,district= ?,state= ? WHERE id = ?`,
-      [reqBody.name, reqBody.email,reqBody.userId,reqBody.hobbies,reqBody.bio,profileImageUpload,reqBody.district,reqBody.state,id]
+      `UPDATE ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} SET name = ?,hobbies= ?,bio= ?,profilepic= ?,district= ?,state= ? WHERE id = ?`,
+      [reqBody.name,reqBody.hobbies,reqBody.bio,reqBody.files,reqBody.district,reqBody.state,id]
     );
 
     Log.info("updateUserProfile:" + updateUserProfile);

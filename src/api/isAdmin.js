@@ -16,6 +16,7 @@ exports.handler = async (event) => {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
     const userProfile = await getuserProfileInfo(userTokenInfo);
+    Log.info("user "+userProfile.isAdmin);
     return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
         userProfile.isAdmin

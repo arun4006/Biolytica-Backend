@@ -1,6 +1,8 @@
 const parseMultipart = require("parse-multipart");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const Log = require("../utils/logging");
+const {getUser}=require('../services/db/db.service')
+const { uploadFiles } = require("../services/s3/fileUploadService");
 
 const extractFile = (event) => {
  
@@ -40,12 +42,36 @@ const emptyProfile= () => {
  }
 }
 
+const userPayload=async (reqData,id) =>{
 
+console.log("id"+id);
+const getUserData= await getUser(id);
+const firstGetUser =getUserData[0];
+const name = reqData.name ?? firstGetUser.name;
+const hobbies = reqData.hobbies ?? firstGetUser.hobbies;
+const bio = reqData.bio ?? firstGetUser.bio;
+const district = reqData.district ?? firstGetUser.district;
+const state = reqData.state ?? firstGetUser.state;
+
+let files;
+if(reqData.files.length === 0 || reqData.files === undefined ){
+ files=firstGetUser.profilepic;
+ Log.info("files already here"+files);
+}else{
+ let file=await uploadFiles(reqData.files[0].filename, reqData.files[0].content);
+ files=file.fileUri;
+ Log.info("files new here"+files);
+}
+
+return {name,hobbies,bio,district,state,files};
+
+}
 
 
 module.exports = {
   extractFile,
-  emptyProfile 
+  emptyProfile,
+  userPayload 
 };
 
 
