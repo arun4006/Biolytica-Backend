@@ -2,6 +2,7 @@ const { getUserTokenInfo, cognitoUserToDelete } = require("../services/auth/auth
 const {getuserProfileInfo,getUser} = require("../services/db/db.service")
 const {deleteUserFromTable}=require('../helper/index');
 const {unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
+const {ENV_COGNITOCONSTANTS}=require('../constants/env.cognitoConstants')
 const {ENV_CONSTANTS } = require("../constants/env.constants");
 const Log = require('../utils/logging');
 
@@ -16,17 +17,18 @@ exports.handler = async (event) => {
     const userProfile = await getuserProfileInfo(userTokenInfo);
     Log.info(userProfile);
 
-    if (userProfile.isAdmin == 'true') 
+    const isAdmin=JSON.parse(userProfile.isAdmin);
+    if (isAdmin) 
     {
-        //const currentUser=await getUser(event.pathParameters.id);
-        //let currentUserId=currentUser[0].userid;
-        //Log.info("user id"+currentUserId);
+        const currentUser=await getUser(event.pathParameters.id);
+        let currentUserId=currentUser[0].userid;
+        Log.info("user id"+currentUserId);
         
-        //const deleteuserfromCognito = await cognitoUserToDelete(currentUserId);
+        const deleteuserfromCognito = await cognitoUserToDelete(currentUserId);
         const deleteuserfromDB = await deleteUserFromTable(event.pathParameters.id);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
-        "user deleted successfully"
+        ENV_COGNITOCONSTANTS.USERDELETE_MSG
       );
     }
     else {

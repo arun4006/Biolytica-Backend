@@ -1,12 +1,17 @@
 const parseMultipart = require("parse-multipart");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const Log = require("../utils/logging");
-const {getUser , getUserInImageInfo}=require('../services/db/db.service')
+const {
+  getUser,
+  deleteUserInImageInfo,
+  deleteUserInUserInfo,
+} = require("../services/db/db.service");
 const { uploadFiles } = require("../services/s3/fileUploadService");
+const { deleteFile } = require("../services/s3/deleteFile");
 
 const extractFile = (event) => {
- 
-  const Content_Type= event.headers["Content-Type"] ||  event.headers["content-type"] ;
+  const Content_Type =
+    event.headers["Content-Type"] || event.headers["content-type"];
 
   const boundary = parseMultipart.getBoundary(Content_Type);
   Log.info("boundary:" + boundary);
@@ -14,10 +19,10 @@ const extractFile = (event) => {
   const files = parseMultipart.Parse(
     Buffer.from(event.body, ENV_BUCKETCONSTANTS.ENCODED_TYPE),
     boundary
-  ); 
+  );
   const fileFormat = files[0].type.split("/")[0];
   Log.info("files format:" + fileFormat);
-  Log.info("file length"+files.length)
+  Log.info("file length" + files.length);
 
   if (fileFormat !== "image") {
     Log.warn("Not an valid image format");
@@ -28,59 +33,56 @@ const extractFile = (event) => {
     const [{ filename, data }] = files;
     return {
       filename,
-      data
+      data,
     };
   }
 };
 
+const emptyProfile = () => {
+  return {
+    filename: "emptyProfile.png",
+    fileUri: "https://aws-demo-files.s3.amazonaws.com/emptyProfile.png",
+    isUploaded: "true",
+  };
+};
 
-const emptyProfile= () => {
- return {
-  filename:'emptyProfile.png',
-  fileUri:'https://aws-demo-files.s3.amazonaws.com/emptyProfile.png',
-  isUploaded:'true'
- }
-}
+const userPayload = async (reqData, id) => {
+  console.log("id" + id);
+  const getUserData = await getUser(id);
+  const firstGetUser = getUserData[0];
+  const name = reqData.name ?? firstGetUser.name;
+  const hobbies = reqData.hobbies ?? firstGetUser.hobbies;
+  const bio = reqData.bio ?? firstGetUser.bio;
+  const district = reqData.district ?? firstGetUser.district;
+  const state = reqData.state ?? firstGetUser.state;
 
-const userPayload=async (reqData,id) =>{
+  let files;
+  if (reqData.files.length === 0 || reqData.files === undefined) {
+    files = firstGetUser.profilepic;
+    Log.info("files already here" + files);
+  } else {
+    let file = await uploadFiles(
+      reqData.files[0].filename,
+      reqData.files[0].content
+    );
+    files = file.fileUri;
+    Log.info("files new here" + files);
+  }
 
-console.log("id"+id);
-const getUserData= await getUser(id);
-const firstGetUser =getUserData[0];
-const name = reqData.name ?? firstGetUser.name;
-const hobbies = reqData.hobbies ?? firstGetUser.hobbies;
-const bio = reqData.bio ?? firstGetUser.bio;
-const district = reqData.district ?? firstGetUser.district;
-const state = reqData.state ?? firstGetUser.state;
+  return { name, hobbies, bio, district, state, files };
+};
 
-let files;
-if(reqData.files.length === 0 || reqData.files === undefined ){
- files=firstGetUser.profilepic;
- Log.info("files already here"+files);
-}else{
- let file=await uploadFiles(reqData.files[0].filename, reqData.files[0].content);
- files=file.fileUri;
- Log.info("files new here"+files);
-}
+const deleteUserFromTable = async (id) => {
+  const deleteImageData = await deleteUserInImageInfo(id);
+  const deleteUser = deleteUserInUserInfo(id);
 
-return {name,hobbies,bio,district,state,files};
-
-}
-
-const deleteUserFromTable = async(id) => {
-    const getImageData=await getUserInImageInfo(id);
-    Log.info("getImageData"+getImageData);
-    Log.info("getImageData length"+getImageData.length); 
-}
-
-
-
+  Log.info("deleteImageData " + deleteImageData);
+  Log.info("deleteUser" + deleteUser);
+};
 
 module.exports = {
   extractFile,
   emptyProfile,
   userPayload,
-  deleteUserFromTable
+  deleteUserFromTable,
 };
-
-

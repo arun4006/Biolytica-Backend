@@ -277,25 +277,52 @@ exports.deleteUserFromProfile = async (id) => {
   }
 }; 
 
-exports.getUserInImageInfo = async (id) => {
+exports.deleteUserInImageInfo = async (id) => {
   const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
   Log.error("query:" + query);
 
   try 
   {
-    const getUserImageData = await query(
-      `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_IMAGES} WHERE owner = ${id} `,
-      
+    const deleteUserPosts = await query(
+      `UPDATE ${ENV_DBCONSTANTS.TABLENAME_IMAGES} SET isDeleted = 1 WHERE owner = ?`,
+      [id]
     );
-    Log.info("getUserImageData:" + getUserImageData);
 
-    if (getUserImageData.length == 0) {
+    Log.info("deleteUserPosts:" + deleteUserPosts);
+
+    if (deleteUserPosts.length == 0) {
       return {
         status: "error",
         message: "Data not found",
       };
     }
-    return getUserImageData;
+    return deleteUserPosts;
+  } catch (err) {
+   Log.error("error:" + err);
+    return err;
+  }
+};
+
+exports.deleteUserInUserInfo = async (id) => {
+  const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
+  Log.error("query:" + query);
+
+  try 
+  {
+    const deleteUser= await query(
+      `UPDATE ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} SET isDeleted = 1 WHERE id = ?`,
+      [id]
+    );
+
+    Log.info("deleteUser:" + deleteUser);
+
+    if (deleteUser.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return deleteUser;
   } catch (err) {
    Log.error("error:" + err);
     return err;
