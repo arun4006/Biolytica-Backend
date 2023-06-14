@@ -31,7 +31,7 @@ exports.getUserTokenInfo = async (event) => {
   }
 };
 
-exports.removeUser = async (username) => {
+exports.cognitoUserToDelete = async (username) => {
   const params =
   {
     UserPoolId: ENV_COGNITOCONSTANTS.USERPOOL_ID,

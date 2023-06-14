@@ -1,7 +1,7 @@
 const parseMultipart = require("parse-multipart");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const Log = require("../utils/logging");
-const {getUser}=require('../services/db/db.service')
+const {getUser , getUserInImageInfo}=require('../services/db/db.service')
 const { uploadFiles } = require("../services/s3/fileUploadService");
 
 const extractFile = (event) => {
@@ -67,11 +67,20 @@ return {name,hobbies,bio,district,state,files};
 
 }
 
+const deleteUserFromTable = async(id) => {
+    const getImageData=await getUserInImageInfo(id);
+    Log.info("getImageData"+getImageData);
+    Log.info("getImageData length"+getImageData.length); 
+}
+
+
+
 
 module.exports = {
   extractFile,
   emptyProfile,
-  userPayload 
+  userPayload,
+  deleteUserFromTable
 };
 
 

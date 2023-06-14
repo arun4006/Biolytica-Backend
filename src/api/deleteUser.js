@@ -1,5 +1,6 @@
-const { getUserTokenInfo, removeUser } = require("../services/auth/authServices");
-const {deleteUser,getuserProfileInfo,getUser} = require("../services/db/db.service")
+const { getUserTokenInfo, cognitoUserToDelete } = require("../services/auth/authServices");
+const {getuserProfileInfo,getUser} = require("../services/db/db.service")
+const {deleteUserFromTable}=require('../helper/index');
 const {unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
 const {ENV_CONSTANTS } = require("../constants/env.constants");
 const Log = require('../utils/logging');
@@ -17,10 +18,12 @@ exports.handler = async (event) => {
 
     if (userProfile.isAdmin == 'true') 
     {
-       const currentUser=await getUser(event.pathParameters.id);
-       console.log("currentUser"+currentUser[0].userid);
-       const deleteuserfromCognito = await removeUser(currentUser[0].userid);
-       const deleteuserfromDB = await deleteUser(event.pathParameters.id);
+        //const currentUser=await getUser(event.pathParameters.id);
+        //let currentUserId=currentUser[0].userid;
+        //Log.info("user id"+currentUserId);
+        
+        //const deleteuserfromCognito = await cognitoUserToDelete(currentUserId);
+        const deleteuserfromDB = await deleteUserFromTable(event.pathParameters.id);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
         "user deleted successfully"
@@ -32,7 +35,7 @@ exports.handler = async (event) => {
         ENV_CONSTANTS.UNAUTHORIZED,
         "You are not authorized to access admin page"
       );
-    }
+   }
   } catch (err) {
     Log.error(err);
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err.stack)

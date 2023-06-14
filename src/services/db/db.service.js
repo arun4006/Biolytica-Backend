@@ -252,7 +252,7 @@ exports.getUser = async (id) => {
 
 
 
-exports.deleteUser = async (id) => {
+exports.deleteUserFromProfile = async (id) => {
   const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
   Log.error("query:" + query);
 
@@ -271,6 +271,31 @@ exports.deleteUser = async (id) => {
       };
     }
     return deleteUser;
+  } catch (err) {
+   Log.error("error:" + err);
+    return err;
+  }
+}; 
+
+exports.getUserInImageInfo = async (id) => {
+  const query = util.promisify(mysqlConnection.query).bind(mysqlConnection); 
+  Log.error("query:" + query);
+
+  try 
+  {
+    const getUserImageData = await query(
+      `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_IMAGES} WHERE owner = ${id} `,
+      
+    );
+    Log.info("getUserImageData:" + getUserImageData);
+
+    if (getUserImageData.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return getUserImageData;
   } catch (err) {
    Log.error("error:" + err);
     return err;
