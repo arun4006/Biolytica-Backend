@@ -17,7 +17,8 @@ exports.handler = async (event) => {
       const userData={
         userLocation: userProfile.district,
         signedUsername: userProfile.name,
-        profilePic:userProfile.profilepic
+        profilePic:userProfile.profilepic,
+        id:userProfile.id
       }
       
       const filesbyUserLocation=await getFilesbyuserLocation(userData.userLocation);

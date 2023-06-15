@@ -83,7 +83,7 @@ exports.getuserProfileInfo = async (data) => {
     try 
     {
       const filesbyUserLocation = await query(
-        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_IMAGES} WHERE location = ?`,
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_IMAGES} WHERE isDeleted = 0 AND location = ?`,
         [data]
       );
       Log.info("filesbyuserLocation:" + filesbyUserLocation);
@@ -182,7 +182,7 @@ exports.getuserProfileInfo = async (data) => {
     try 
     {
       const UserbyAdmin = await query(
-        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE isAdmin = 'false'  `,
+        `SELECT * FROM ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} WHERE isAdmin = 'false' AND isDeleted = 0 `,
         
       );
       Log.info("UserbyAdmin:" + UserbyAdmin);

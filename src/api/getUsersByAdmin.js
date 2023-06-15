@@ -17,10 +17,13 @@ exports.handler = async (event) => {
     const userData={
       userLocation: userProfile.district,
       signedUsername: userProfile.name,
-      profilePic:userProfile.profilepic
+      profilePic:userProfile.profilepic,
+      id:userProfile.id
     }
     Log.info("typeof isadmin"+typeof userProfile.isAdmin);
-    if (userProfile.isAdmin == 'true') {
+    const isAdmin=JSON.parse(userProfile.isAdmin);
+    
+    if (isAdmin) {
       const usersList = await getUsersbyAdmin();
       const response={
         userList:usersList,

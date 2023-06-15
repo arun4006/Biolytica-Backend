@@ -69,12 +69,12 @@ const userPayload = async (reqData, id) => {
     Log.info("files new here" + files);
   }
 
-  return { name, hobbies, bio, district, state, files };
+  return { name, hobbies, bio, district, state, files };          
 };
 
 const deleteUserFromTable = async (id) => {
   const deleteImageData = await deleteUserInImageInfo(id);
-  const deleteUser = deleteUserInUserInfo(id);
+  const deleteUser = await deleteUserInUserInfo(id);
 
   Log.info("deleteImageData " + deleteImageData);
   Log.info("deleteUser" + deleteUser);
