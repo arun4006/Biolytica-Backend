@@ -1,5 +1,5 @@
 const { getuserProfileInfo, getUser } = require("../services/db/db.service");
-const { getUserTokenInfo } = require('../services/auth/authServices');
+const { getUserTokenInfo,isOwnProfile } = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
 const Log = require('../utils/logging');
@@ -15,7 +15,12 @@ exports.handler = async (event) => {
     const userProfile = await getuserProfileInfo(userTokenInfo);
     Log.info(userProfile);
 
-    if (userProfile.isAdmin == 'true') {
+    const isCurrentUserProfile= await isOwnProfile(userTokenInfo,event.pathParameters.id);
+    Log.info("isCurrentUserProfile"+isCurrentUserProfile);
+
+    const isAdmin=JSON.parse(userProfile.isAdmin);
+
+    if (isAdmin || isCurrentUserProfile) {
       const usersList = await getUser(event.pathParameters.id);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,

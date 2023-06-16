@@ -24,7 +24,7 @@ exports.handler = async (event) => {
         let currentUserId=currentUser[0].userid;
         Log.info("user id"+currentUserId);
         
-        const deleteuserfromCognito = await cognitoUserToDelete(currentUserId);
+        //const deleteuserfromCognito = await cognitoUserToDelete(currentUserId);
         const deleteuserfromDB = await deleteUserFromTable(event.pathParameters.id);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,

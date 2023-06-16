@@ -47,6 +47,8 @@ exports.cognitoUserToDelete = async (username) => {
 }; 
 
 exports.isOwnProfile= async (reqUserId,currentUserId) => {
+   Log.info("reqUserId"+reqUserId);
+   Log.info("currentUserId"+currentUserId);
    const userData=await getUser(currentUserId);
    const result=userData[0].userid === reqUserId;
    return result;
