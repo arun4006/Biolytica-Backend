@@ -123,6 +123,7 @@ functions:
           path: /user/delete/{id}
           method: delete
           cors: true 
+         
 
                 
 resources:

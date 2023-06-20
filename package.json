@@ -22,10 +22,12 @@
     "jsonwebtoken": "^9.0.0",
     "lambda-multipart-parser": "^1.0.1",
     "mysql": "^2.18.1",
+    "mysql2": "^3.4.0",
     "parse-multipart": "^1.0.4",
     "path": "^0.12.7",
     "querystring": "^0.2.1",
     "request": "^2.88.2",
+    "sequelize": "^6.32.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {
