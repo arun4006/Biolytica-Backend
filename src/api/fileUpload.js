@@ -1,9 +1,5 @@
 const { getUserTokenInfo } = require("../services/auth/authServices");
-const {
-  getuserProfileInfo,
-  addFileMetaInTable,
-  updateUserPostCount
-} = require("../services/db/db.service");
+const {addFileMetaInTable,updateUserPostCount,getuserProfileInfo}=require('../services/db/database.service')
 const { unauthorizedResponse } = require("../utils/response");
 const { uploadFiles } = require("../services/s3/fileUploadService");
 const { successResponse,errorResponse } = require("../utils/response");
@@ -27,17 +23,19 @@ exports.handler = async (event) => {
     if (fileuploadResponse.isUploaded) {
       const userData = await getuserProfileInfo(userTokenInfo);
       Log.info("--userData--"+userData.name);
+
+      const fileData={
+        image_name:fileuploadResponse.fileName,
+        image_url :fileuploadResponse.fileUri,
+        owner:userData.id,
+        location:userData.district_id
+      }
       
-      const filetableResponse = await addFileMetaInTable([
-        fileuploadResponse.fileName,
-        fileuploadResponse.fileUri,
-        userData.id,
-        userData.district,
-      ]);
+      const filetableResponse = await addFileMetaInTable(fileData);
       Log.info("filetableResponse:" + filetableResponse);
      
-      const updatePostCountByUser=await updateUserPostCount(userData.id);
-      Log.info("updatePostCountByUser:" + updatePostCountByUser);
+      // const updatePostCountByUser=await updateUserPostCount(userData.id);
+      // Log.info("updatePostCountByUser:" + updatePostCountByUser);
     }
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,

@@ -1,4 +1,4 @@
-const {getAllDistricts}=require('../services/db/db.service');
+const {getAllCities}=require('../services/db/database.service');
 const { successResponse,errorResponse,notFoundResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
 const Log=require('../utils/logging')
@@ -8,9 +8,9 @@ exports.handler = async (event) => {
     const reqStateId = event.queryStringParameters.id;
     Log.info("reqStateId"+reqStateId);
 
-    const districtResponse = await getAllDistricts(reqStateId);
-    Log.info("districtResponse:" + districtResponse);
-    return successResponse(ENV_CONSTANTS.SUCCESS_CODE, districtResponse);
+    const cityResponse = await getAllCities(reqStateId);
+    Log.info("cityResponse:" + cityResponse);
+    return successResponse(ENV_CONSTANTS.SUCCESS_CODE, cityResponse);
     } catch (err) {
       Log.error(err);
       return errorResponse(

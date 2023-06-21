@@ -75,20 +75,20 @@ functions:
           method: get
           cors: true 
 
-  ListDistrictsService:
-    handler: src/api/getDistrictsByStates.handler
+  ListCityService:
+    handler: src/api/getAllCities.handler
     events:
       - http:
-          path: /getdistricts
+          path: /getcity
           method: get
           cors: true  
 
 
   ListUsersAdmin:
-    handler: src/api/getUsersByAdmin.handler
+    handler: src/api/getAllUsers.handler
     events:
       - http:
-          path: /getuserbyadmin
+          path: /getusers
           method: get
           cors: true 
   
@@ -124,6 +124,13 @@ functions:
           method: delete
           cors: true 
          
+  testApiService:
+    handler: src/api/testapi.handler
+    events:
+      - http:
+          path: test
+          method: get
+          cors: true        
 
                 
 resources:

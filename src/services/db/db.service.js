@@ -4,6 +4,7 @@ const {ENV_DBCONSTANTS}=require('../../constants/env.dbConstants');
 const {notFoundResponse,errorResponse}=require('../../utils/response');
 const { ENV_CONSTANTS } = require("../../constants/env.constants");
 const Log = require("../../utils/logging");
+const db=require('../../config/dbConnection');
 
 exports.getuserProfileInfo = async (data) => {
     const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
@@ -52,8 +53,8 @@ exports.getuserProfileInfo = async (data) => {
   
 
   exports.addUserMetaInTable = async (data) => {
+      
     const query = util.promisify(mysqlConnection.query).bind(mysqlConnection);
-  
     try {
       const addnewUser = await query(
         `INSERT INTO ${ENV_DBCONSTANTS.TABLENAME_USERPROFILE} (name,email,userid,hobbies,bio,profilepic,district,state) VALUES(?, ?, ?,?,?,?,?,?)`,
