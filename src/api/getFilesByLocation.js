@@ -1,4 +1,4 @@
-const {getuserProfileInfo,getFilesbyuserLocation} = require("../services/db/db.service");
+const {getuserProfileInfo,getFilesbyuserLocation} = require("../services/db/database.service");
 const {getUserTokenInfo} = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse,errorResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
@@ -13,22 +13,13 @@ exports.handler = async (event) => {
         return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
       }
       const userProfile = await getuserProfileInfo(userTokenInfo);
-      Log.info(userProfile.district);
-      const userData={
-        userLocation: userProfile.district,
-        signedUsername: userProfile.name,
-        profilePic:userProfile.profilepic,
-        id:userProfile.id
-      }
-      
-      const filesbyUserLocation=await getFilesbyuserLocation(userData.userLocation);
-      const response={
-        files:filesbyUserLocation,
-        user:userData
-      }
+      Log.info(userProfile.district_id);
+     
+      const filesResponse=await getFilesbyuserLocation(userProfile.district_id);
+    
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
-        response
+        filesResponse
       );
     } catch (err) {
       return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR,err.stack)

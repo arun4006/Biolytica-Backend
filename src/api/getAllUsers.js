@@ -1,4 +1,4 @@
-const { getuserProfileInfo, getUsersbyAdmin } = require("../services/db/db.service");
+const { getuserProfileInfo } = require("../services/db/database.service");
 const {getUsers}=require('../services/db/database.service');
 const { getUserTokenInfo } = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
@@ -17,7 +17,7 @@ exports.handler = async (event) => {
     Log.info(userProfile);
 
     Log.info("typeof isadmin"+typeof userProfile.isAdmin);
-    const isAdmin=JSON.parse(userProfile.isAdmin);
+    const isAdmin=userProfile.is_admin;
     
     if (isAdmin) {
       const usersList = await getUsers();

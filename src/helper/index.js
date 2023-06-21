@@ -2,10 +2,10 @@ const parseMultipart = require("parse-multipart");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const Log = require("../utils/logging");
 const {
-  getUser,
   deleteUserInImageInfo,
   deleteUserInUserInfo,
 } = require("../services/db/db.service");
+const { getUser} = require("../services/db/database.service");
 const { uploadFiles } = require("../services/s3/fileUploadService");
 const { deleteFile } = require("../services/s3/deleteFile");
 
@@ -49,16 +49,9 @@ const emptyProfile = () => {
 const userPayload = async (reqData, id) => {
   console.log("id" + id);
   const getUserData = await getUser(id);
-  const firstGetUser = getUserData[0];
-  const name = reqData.name ?? firstGetUser.name;
-  const hobbies = reqData.hobbies ?? firstGetUser.hobbies;
-  const bio = reqData.bio ?? firstGetUser.bio;
-  const district = reqData.district ?? firstGetUser.district;
-  const state = reqData.state ?? firstGetUser.state;
-
   let files;
   if (reqData.files.length === 0 || reqData.files === undefined) {
-    files = firstGetUser.profilepic;
+    files = getUserData.profile_pic;
     Log.info("files already here" + files);
   } else {
     let file = await uploadFiles(
@@ -69,7 +62,23 @@ const userPayload = async (reqData, id) => {
     Log.info("files new here" + files);
   }
 
-  return { name, hobbies, bio, district, state, files };          
+ 
+  // const name = reqData.name ?? getUserData.name;
+  // const hobbies = reqData.hobbies ?? getUserData.hobbies;
+  // const bio = reqData.bio ?? getUserData.bio;
+  // const district = reqData.district ?? getUserData.district_id;
+  // const state = reqData.state ?? getUserData.state_id;
+  
+  let reqPayload = {
+    name: reqData.name ?? getUserData.name,
+    hobbies: reqData.hobbies ?? getUserData.hobbies,
+    bio: reqData.bio ?? getUserData.bio,
+    profile_pic: files,
+    district_id:reqData.district ?? getUserData.district_id,
+    state_id:reqData.state ?? getUserData.state_id
+}
+  Log.info("reqPayload"+JSON.stringify(reqPayload))
+  return reqPayload;         
 };
 
 const deleteUserFromTable = async (id) => {

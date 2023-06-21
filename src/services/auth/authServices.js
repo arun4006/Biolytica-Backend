@@ -4,7 +4,7 @@ const { ENV_COGNITOCONSTANTS } = require("../../constants/env.cognitoConstants")
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
 const Log = require("../../utils/logging");
 const {ENV_CONSTANTS} = require("../../constants/env.constants");
-const {getUser}=require('../db/db.service')
+const {getUser}=require('../db/database.service')
 const {errorResponse} = require("../../utils/response");
 
 
@@ -50,6 +50,6 @@ exports.isOwnProfile= async (reqUserId,currentUserId) => {
    Log.info("reqUserId"+reqUserId);
    Log.info("currentUserId"+currentUserId);
    const userData=await getUser(currentUserId);
-   const result=userData[0].userid === reqUserId;
+   const result=userData.user_id === reqUserId;
    return result;
 }

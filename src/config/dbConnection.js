@@ -31,7 +31,7 @@ db.city = require('../models/city.model')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {
-    console.log('yes re-sync done!')
+    console.log(' re-sync done!')
 })
 
 db.user.hasMany(db.imageInfo, {

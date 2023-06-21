@@ -31,7 +31,6 @@ exports.handler = async (event, context) => {
 }
 
  Log.info("req"+ JSON.stringify(reqPayload))
- let userData=JSON.stringify(reqPayload);
  const filetableResponse = await addUserMetaInTable(reqPayload);
  Log.info("filetableResponse:" + filetableResponse);
   

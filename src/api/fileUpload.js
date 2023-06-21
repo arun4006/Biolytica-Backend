@@ -34,8 +34,8 @@ exports.handler = async (event) => {
       const filetableResponse = await addFileMetaInTable(fileData);
       Log.info("filetableResponse:" + filetableResponse);
      
-      // const updatePostCountByUser=await updateUserPostCount(userData.id);
-      // Log.info("updatePostCountByUser:" + updatePostCountByUser);
+      const updatePostCountByUser=await updateUserPostCount(userData.id);
+      Log.info("updatePostCountByUser:" + updatePostCountByUser);
     }
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,

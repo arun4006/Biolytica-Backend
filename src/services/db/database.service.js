@@ -8,23 +8,24 @@ const Users = db.user;
 const State = db.state;
 const City = db.city;
 const ImageInfo = db.imageInfo;
-const sequelize=db.sequelize;
+const sequelize = db.sequelize;
 
 exports.getuserProfileInfo = async (userId) => {
-    
-    try {
-      const getProfileDataByUser = await Users.findOne({ where: { user_id: userId } });
-      Log.info("getProfileDataByUser:" + getProfileDataByUser.id);
-      Log.info("length of getProfileDataByUser:" + getProfileDataByUser.length);
-      if (getProfileDataByUser.length == 0) {
-        return notFoundResponse(ENV_CONSTANTS.NOTFOUND,"User not found");
-      }
-      return getProfileDataByUser;      
-    } catch (err) {
-      Log.error("error:" + err);
-      return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR,err);
+  try {
+    const getProfileDataByUser = await Users.findOne({
+      where: { user_id: userId },
+    });
+    Log.info("getProfileDataByUser:" + getProfileDataByUser.id);
+    Log.info("length of getProfileDataByUser:" + getProfileDataByUser.length);
+    if (getProfileDataByUser.length == 0) {
+      return notFoundResponse(ENV_CONSTANTS.NOTFOUND, "User not found");
     }
-  };
+    return getProfileDataByUser;
+  } catch (err) {
+    Log.error("error:" + err);
+    return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err);
+  }
+};
 
 exports.addUserMetaInTable = async (data) => {
   try {
@@ -118,8 +119,8 @@ exports.addFileMetaInTable = async (data) => {
 
 exports.updateUserPostCount = async (userId) => {
   try {
-    const requestBody = { 
-        num_posts: sequelize.literal("num_posts + 1"),
+    const requestBody = {
+      num_posts: sequelize.literal("num_posts + 1"),
     };
 
     const updatePostCount = await Users.update(requestBody, {
@@ -140,4 +141,58 @@ exports.updateUserPostCount = async (userId) => {
   }
 };
 
+exports.getUser = async (id) => {
+  try {
+    const getUser = await Users.findOne({ where: { id: id } });
+    Log.info("getUser:" + getUser);
 
+    if (getUser.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return getUser;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+};
+
+exports.getFilesbyuserLocation = async (locationId) => {
+  try {
+    const filesbyUserLocation = await ImageInfo.findAll({
+      where: { is_deleted: 0, location: locationId },
+    });
+    Log.info("filesbyuserLocation:" + filesbyUserLocation);
+
+    if (filesbyUserLocation.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return filesbyUserLocation;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+};
+
+exports.updateUser=async(reqBody,id) =>{  
+  try 
+  {
+    const updateUserProfile = await Users.update(reqBody, { where: { id: id }})
+    Log.info("updateUserProfile:" + updateUserProfile);
+    if (updateUserProfile.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return updateUserProfile;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+}
