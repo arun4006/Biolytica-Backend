@@ -122,8 +122,15 @@ functions:
       - http:
           path: test
           method: get
-          cors: true        
+          cors: true    
 
+  signedUserInfoService:             
+     handler: src/api/signedUserInfo.handler
+     events:
+      - http:
+          path: /auth/user
+          method: get
+          cors: true 
                 
 resources:
   Resources:

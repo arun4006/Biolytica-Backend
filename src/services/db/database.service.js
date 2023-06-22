@@ -179,7 +179,7 @@ exports.getFilesbyuserLocation = async (locationId) => {
   }
 };
 
-exports.updateUser=async(reqBody,id) =>{  
+exports.updateUserInUsers=async(reqBody,id) =>{  
   try 
   {
     const updateUserProfile = await Users.update(reqBody, { where: { id: id }})
@@ -197,10 +197,27 @@ exports.updateUser=async(reqBody,id) =>{
   }
 }
 
+exports.updateUserInImageData=async(id,locationId) =>{  
+  try 
+  {
+    const updateUserProfile = await ImageInfo.update({location: locationId}, { where: { owner: id }})
+    Log.info("updateUserProfile:" + updateUserProfile);
+    if (updateUserProfile.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return updateUserProfile;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+}
+
 
 exports.deleteUserInUsers=async(id) =>{  
-  try {
-    
+  try {   
     const deleteUserInUsers = await Users.update({is_deleted: 1}, {
       where: { id: id },
     });

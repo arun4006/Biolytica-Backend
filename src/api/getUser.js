@@ -39,4 +39,4 @@ exports.handler = async (event) => {
   } catch (err) {
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err.stack)
   }
-};
+}; 

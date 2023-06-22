@@ -1,4 +1,4 @@
-const { getuserProfileInfo,updateUser} = require("../services/db//database.service");
+const { getuserProfileInfo,updateUserInUsers,updateUserInImageData} = require("../services/db//database.service");
 const { getUserTokenInfo,isMe,isOwnProfile } = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
@@ -24,7 +24,11 @@ exports.handler = async (event, context) => {
   if (isAdmin || isCurrentUserProfile ) {
     const reqBody =await parser.parse(event); 
     const userData=await userPayload(reqBody,event.pathParameters.id);
-    const updateUserResponse=await updateUser(userData,event.pathParameters.id);  
+    const updateUserResponse=await updateUserInUsers(userData,event.pathParameters.id);
+    if(reqBody.district){
+      const updateUserInImageDataResponse=await updateUserInImageData(event.pathParameters.id,reqBody.district);
+      Log.info("updateUserInImageDataResponse"+updateUserInImageDataResponse);
+    }
     Log.info("updateUserResponse"+updateUserResponse)
     
     return successResponse(

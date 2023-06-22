@@ -61,13 +61,6 @@ const userPayload = async (reqData, id) => {
     files = file.fileUri;
     Log.info("files new here" + files);
   }
-
- 
-  // const name = reqData.name ?? getUserData.name;
-  // const hobbies = reqData.hobbies ?? getUserData.hobbies;
-  // const bio = reqData.bio ?? getUserData.bio;
-  // const district = reqData.district ?? getUserData.district_id;
-  // const state = reqData.state ?? getUserData.state_id;
   
   let reqPayload = {
     name: reqData.name ?? getUserData.name,
