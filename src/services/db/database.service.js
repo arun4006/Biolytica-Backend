@@ -83,7 +83,7 @@ exports.getAllCities = async (id) => {
 
 exports.getUsers = async () => {
   try {
-    const ListUsers = await Users.findAll({ where: { is_admin: 0 } });
+    const ListUsers = await Users.findAll({ where: { is_admin: 0,is_deleted: 0 } });
     Log.info("ListUsers:" + ListUsers);
 
     if (ListUsers.length == 0) {
@@ -196,3 +196,45 @@ exports.updateUser=async(reqBody,id) =>{
     return err;
   }
 }
+
+
+exports.deleteUserInUsers=async(id) =>{  
+  try {
+    
+    const deleteUserInUsers = await Users.update({is_deleted: 1}, {
+      where: { id: id },
+    });
+
+    Log.info("deleteUserInUsers:" + deleteUserInUsers);
+    if (deleteUserInUsers.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return deleteUserInUsers;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+}
+
+exports.deleteUserInImageData = async (id) => {
+  try {    
+    const deleteUserInImageData = await ImageInfo.update({is_deleted: 1}, {
+      where: { owner: id },
+    });
+
+    Log.info("deleteUserInImageData:" + deleteUserInImageData);
+    if (deleteUserInImageData.length == 0) {
+      return {
+        status: "error",
+        message: "Data not found",
+      };
+    }
+    return deleteUserInImageData;
+  } catch (err) {
+    Log.error("error:" + err);
+    return err;
+  }
+};
