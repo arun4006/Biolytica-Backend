@@ -4,6 +4,7 @@ const { getUserTokenInfo } = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
 const Log = require('../utils/logging');
+const {getPagination}=require('../helper/index');
 
 
 exports.handler = async (event) => {
@@ -16,11 +17,16 @@ exports.handler = async (event) => {
     const userProfile = await getuserProfileInfo(userTokenInfo);
     Log.info(userProfile);
 
-    Log.info("typeof isadmin"+typeof userProfile.isAdmin);
     const isAdmin=userProfile.is_admin;
     
+    const page=event['queryStringParameters']['page']?? 1;
+
+    const { limit, offset } = getPagination(page);
+    Log.info("limit"+limit);
+    Log.info("offset"+offset);
+
     if (isAdmin) {
-      const usersList = await getUsers();
+      const usersList = await getUsers(page,limit,offset);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
         usersList

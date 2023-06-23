@@ -82,9 +82,26 @@ const deleteUserFromTable = async (id) => {
   Log.info("deleteUser" + deleteUser);
 };
 
+const getPagination = (page) => {
+  const limit = 5;
+  const offset = page ? (page-1) * limit : 0;
+
+  return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+  const { count: totalItems, rows: users } = data;
+  const currentPage = page ? +page : 1;
+  const totalPages = Math.ceil(totalItems / limit);
+
+  return { totalItems, users, totalPages, currentPage };
+};
+
 module.exports = {
   extractFile,
   emptyProfile,
   userPayload,
   deleteUserFromTable,
+  getPagination,
+  getPagingData
 };

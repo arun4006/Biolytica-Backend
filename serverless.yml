@@ -116,13 +116,7 @@ functions:
           method: delete
           cors: true 
          
-  testApiService:
-    handler: src/api/testapi.handler
-    events:
-      - http:
-          path: test
-          method: get
-          cors: true    
+  
 
   signedUserInfoService:             
      handler: src/api/signedUserInfo.handler

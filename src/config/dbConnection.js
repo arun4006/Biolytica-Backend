@@ -31,7 +31,7 @@ db.city = require('../models/city.model')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {
-    console.log(' re-sync done!')
+    console.log('re-sync done!')
 })
 
 db.user.hasMany(db.imageInfo, {
@@ -49,4 +49,5 @@ db.user.belongsTo(db.state,{
 db.user.belongsTo(db.city,{
   foreignKey:'district_id'
 })
+
 module.exports = db;
