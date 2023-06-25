@@ -1,4 +1,5 @@
 const { ENV_DBCONSTANTS } = require("../../constants/env.dbConstants");
+const { Op } = require('sequelize');
 const { notFoundResponse, errorResponse } = require("../../utils/response");
 const { ENV_CONSTANTS } = require("../../constants/env.constants");
 const { getPagingData } = require("../../helper/index");
@@ -12,7 +13,7 @@ const ImageInfo = db.imageInfo;
 const sequelize = db.sequelize;
 
 exports.getuserProfileInfo = async (userId) => {
-  try {   
+  try {
     const getProfileDataByUser = await Users.findOne({
       where: { user_id: userId },
     });
@@ -21,8 +22,6 @@ exports.getuserProfileInfo = async (userId) => {
     if (getProfileDataByUser.length == 0) {
       return notFoundResponse(ENV_CONSTANTS.NOTFOUND, "User not found");
     }
-   
-    
 
     return getProfileDataByUser;
   } catch (err) {
@@ -33,8 +32,6 @@ exports.getuserProfileInfo = async (userId) => {
 
 exports.addUserMetaInTable = async (data) => {
   try {
-   
-
     const addnewUser = await Users.create(data);
     Log.info("addnewUser:" + addnewUser);
     if (addnewUser.length == 0) {
@@ -44,8 +41,6 @@ exports.addUserMetaInTable = async (data) => {
       );
     }
 
-   
-      
     return {
       isCreated: true,
       addnewUser,
@@ -58,8 +53,6 @@ exports.addUserMetaInTable = async (data) => {
 
 exports.getAllStates = async () => {
   try {
-   
-
     const statesList = await State.findAll({});
     Log.info("statesList:" + statesList);
     if (statesList.length == 0) {
@@ -68,8 +61,6 @@ exports.getAllStates = async () => {
         message: "Data not found",
       };
     }
-   
-    
 
     return statesList;
   } catch (err) {
@@ -80,8 +71,6 @@ exports.getAllStates = async () => {
 
 exports.getAllCities = async (id) => {
   try {
-   
-
     const cityList = await City.findAll({ where: { state_id: id } });
     Log.info("cityList:" + cityList);
     if (cityList.length == 0) {
@@ -90,8 +79,6 @@ exports.getAllCities = async (id) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return cityList;
   } catch (err) {
@@ -100,12 +87,22 @@ exports.getAllCities = async (id) => {
   }
 };
 
-exports.getUsers = async (page, limit, offset) => {
+exports.getUsers = async (page, limit, offset,searchText) => {
   try {
-   
+    let whereClause = {
+      is_admin: 0,
+      is_deleted: 0,
+    };
+    var search=searchText;
+    if (search) {
+      whereClause[Op.or] = [
+        { name: { [Op.like]: `%${search}%` } },
+        { email: { [Op.like]: `%${search}%` } },
+      ];
+    }
 
     const listUsers = await Users.findAndCountAll({
-      where: { is_admin: 0, is_deleted: 0 },
+      where: whereClause,
       limit: limit,
       offset: offset,
     });
@@ -119,8 +116,6 @@ exports.getUsers = async (page, limit, offset) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return Response;
   } catch (err) {
@@ -131,8 +126,6 @@ exports.getUsers = async (page, limit, offset) => {
 
 exports.addFileMetaInTable = async (data) => {
   try {
-   
-
     const addObjectsByUser = await ImageInfo.create(data);
 
     Log.info("addObjectsByUser:" + addObjectsByUser);
@@ -142,8 +135,6 @@ exports.addFileMetaInTable = async (data) => {
         "Files data is not created"
       );
     }
-   
-    
 
     return addObjectsByUser;
   } catch (err) {
@@ -154,8 +145,6 @@ exports.addFileMetaInTable = async (data) => {
 
 exports.updateUserPostCount = async (userId) => {
   try {
-   
-
     const requestBody = {
       num_posts: sequelize.literal("num_posts + 1"),
     };
@@ -171,8 +160,6 @@ exports.updateUserPostCount = async (userId) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return updatePostCount;
   } catch (err) {
@@ -183,8 +170,6 @@ exports.updateUserPostCount = async (userId) => {
 
 exports.getUser = async (id) => {
   try {
-   
-
     const getUser = await Users.findOne({ where: { id: id } });
     Log.info("getUser:" + getUser);
 
@@ -194,8 +179,6 @@ exports.getUser = async (id) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return getUser;
   } catch (err) {
@@ -206,8 +189,6 @@ exports.getUser = async (id) => {
 
 exports.getFilesbyuserLocation = async (locationId) => {
   try {
-   
-
     const filesbyUserLocation = await ImageInfo.findAll({
       where: { is_deleted: 0, location: locationId },
     });
@@ -219,8 +200,6 @@ exports.getFilesbyuserLocation = async (locationId) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return filesbyUserLocation;
   } catch (err) {
@@ -231,8 +210,6 @@ exports.getFilesbyuserLocation = async (locationId) => {
 
 exports.updateUserInUsers = async (reqBody, id) => {
   try {
-   
-
     const updateUserProfile = await Users.update(reqBody, {
       where: { id: id },
     });
@@ -243,8 +220,6 @@ exports.updateUserInUsers = async (reqBody, id) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return updateUserProfile;
   } catch (err) {
@@ -255,8 +230,6 @@ exports.updateUserInUsers = async (reqBody, id) => {
 
 exports.updateUserInImageData = async (id, locationId) => {
   try {
-   
-
     const updateUserProfile = await ImageInfo.update(
       { location: locationId },
       { where: { owner: id } }
@@ -268,8 +241,6 @@ exports.updateUserInImageData = async (id, locationId) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return updateUserProfile;
   } catch (err) {
@@ -280,8 +251,6 @@ exports.updateUserInImageData = async (id, locationId) => {
 
 exports.deleteUserInUsers = async (id) => {
   try {
-   
-    
     const deleteUserInUsers = await Users.update(
       { is_deleted: 1 },
       {
@@ -296,7 +265,7 @@ exports.deleteUserInUsers = async (id) => {
         message: "Data not found",
       };
     }
-   
+
     return deleteUserInUsers;
   } catch (err) {
     Log.error("error:" + err);
@@ -306,15 +275,13 @@ exports.deleteUserInUsers = async (id) => {
 
 exports.deleteUserInImageData = async (id) => {
   try {
-   
-
     const deleteUserInImageData = await ImageInfo.update(
       { is_deleted: 1 },
       {
         where: { owner: id },
       }
     );
-    
+
     Log.info("deleteUserInImageData:" + deleteUserInImageData);
     if (deleteUserInImageData.length == 0) {
       return {
@@ -322,8 +289,6 @@ exports.deleteUserInImageData = async (id) => {
         message: "Data not found",
       };
     }
-   
-    
 
     return deleteUserInImageData;
   } catch (err) {

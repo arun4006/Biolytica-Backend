@@ -20,13 +20,14 @@ exports.handler = async (event) => {
     const isAdmin=userProfile.is_admin;
     
     const page=event['queryStringParameters']['page']?? 1;
+    const searchText=event['queryStringParameters']['search'] || ''; 
 
     const { limit, offset } = getPagination(page);
     Log.info("limit"+limit);
     Log.info("offset"+offset);
 
     if (isAdmin) {
-      const usersList = await getUsers(page,limit,offset);
+      const usersList = await getUsers(page,limit,offset,searchText);
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
         usersList
