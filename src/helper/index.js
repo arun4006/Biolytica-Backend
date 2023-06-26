@@ -5,7 +5,7 @@ const {
   deleteUserInImageData,
   deleteUserInUsers,
 } = require("../services/db/database.service");
-const { getUser} = require("../services/db/database.service");
+const dbService = require("../services/db/database.service");
 const { uploadFiles } = require("../services/s3/fileUploadService");
 const { deleteFile } = require("../services/s3/deleteFile");
 
@@ -48,7 +48,7 @@ const emptyProfile = () => {
 
 const userPayload = async (reqData, id) => {
   console.log("id" + id);
-  const getUserData = await getUser(id);
+  const getUserData = await dbService.getUser(id);
   let files;
   if (reqData.files.length === 0 || reqData.files === undefined) {
     files = getUserData.profile_pic;
