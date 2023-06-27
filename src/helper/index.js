@@ -1,10 +1,6 @@
 const parseMultipart = require("parse-multipart");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const Log = require("../utils/logging");
-const {
-  deleteUserInImageData,
-  deleteUserInUsers,
-} = require("../services/db/database.service");
 const dbService = require("../services/db/database.service");
 const { uploadFiles } = require("../services/s3/fileUploadService");
 const { deleteFile } = require("../services/s3/deleteFile");
@@ -75,8 +71,8 @@ const userPayload = async (reqData, id) => {
 };
 
 const deleteUserFromTable = async (id) => {
-  const deleteImageData = await deleteUserInImageData(id);
-  const deleteUser = await deleteUserInUsers(id);
+  const deleteImageData = await dbService.deleteUserInImageData(id);
+  const deleteUser = await dbService.deleteUserInUsers(id);
 
   Log.info("deleteImageData " + deleteImageData);
   Log.info("deleteUser" + deleteUser);
