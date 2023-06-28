@@ -16,6 +16,12 @@ exports.getuserProfileInfo = async (userId) => {
   try {
     const getProfileDataByUser = await Users.findOne({
       where: { user_id: userId },
+      include: [
+        {
+          model: City,
+          attributes: ['city_name'],
+        },
+      ],
     });
     Log.info("getProfileDataByUser:" + getProfileDataByUser.id);
     Log.info("length of getProfileDataByUser:" + getProfileDataByUser.length);
