@@ -91,7 +91,7 @@ exports.getUsers = async (page, limit, offset,searchText) => {
   try {
     let whereClause = {
       is_admin: 0,
-      is_deleted: 0,
+      is_deleted: 0
     };
     var search=searchText;
     if (search) {
@@ -103,6 +103,12 @@ exports.getUsers = async (page, limit, offset,searchText) => {
 
     const listUsers = await Users.findAndCountAll({
       where: whereClause,
+      include: [
+        {
+          model: City,
+          attributes: ['city_name'],
+        },
+      ],
       limit: limit,
       offset: offset,
     });
@@ -170,7 +176,14 @@ exports.updateUserPostCount = async (userId) => {
 
 exports.getUser = async (id) => {
   try {
-    const getUser = await Users.findOne({ where: { id: id } });
+    const getUser = await Users.findOne( { where: { id: id },
+      include: [
+        {
+          model: City,
+          attributes: ['city_name'],
+        },
+      ],
+     });
     Log.info("getUser:" + getUser);
 
     if (getUser.length == 0) {
