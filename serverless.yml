@@ -125,6 +125,15 @@ functions:
           path: /auth/user
           method: get
           cors: true 
+
+  
+  checkUserExistsService:             
+     handler: src/api/checkUserExists.handler
+     events:
+      - http:
+          path: /auth/user/exists
+          method: get
+          cors: true         
                 
 resources:
   Resources:

@@ -7,6 +7,8 @@
     USERREG_MSG:"user Registered successfully",
     USERUPDATE_MSG:"user updtaed successfully",
     USERDELETE_MSG:"user deleted successfully",
+    USER_EXISTSMSG:true,
+    USER_NOTEXISTSMSG:false,
     UNAUTHORIZED_MSG:"You are not authorized to access admin page"
 };
 
