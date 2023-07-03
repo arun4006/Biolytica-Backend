@@ -3,6 +3,7 @@ const {getUserTokenInfo} = require('../services/auth/authServices');
 const { unauthorizedResponse, successResponse,errorResponse } = require("../utils/response");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
 const Log=require('../utils/logging');
+const { connectToDB, disconnectFromDB } = require('../services/auth/authServices')
 
 
 exports.handler = async (event) => {
@@ -12,11 +13,12 @@ exports.handler = async (event) => {
       if (userTokenInfo == "TOKEN_EXPIRED") {
         return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
       }
+      await connectToDB();
       const userProfile = await getuserProfileInfo(userTokenInfo);
       Log.info(userProfile.district_id);
      
       const filesResponse=await getFilesbyuserLocation(userProfile.district_id);
-    
+      await disconnectFromDB();
       return successResponse(
         ENV_CONSTANTS.SUCCESS_CODE,
         filesResponse

@@ -30,6 +30,7 @@ exports.getuserProfileInfo = async (userId) => {
     }
 
     return getProfileDataByUser;
+  
   } catch (err) {
     Log.error("error:" + err);
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err);

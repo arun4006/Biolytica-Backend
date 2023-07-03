@@ -4,8 +4,10 @@ const { addUserMetaInTable } = require("../services/db/database.service");
 const { ENV_COGNITOCONSTANTS } = require("../constants/env.cognitoConstants");
 const { successResponse, errorResponse } = require("../utils/response");
 const Log = require("../utils/logging");
+const { connectToDB, disconnectFromDB } = require('../services/auth/authServices')
 
 exports.handler = async (event, context) => {
+  await connectToDB();
   const reqBody = await parser.parse(event);
   Log.info("files" + reqBody.files);
   var profileImageUpload;
@@ -33,7 +35,7 @@ exports.handler = async (event, context) => {
  Log.info("req"+ JSON.stringify(reqPayload))
  const filetableResponse = await addUserMetaInTable(reqPayload);
  Log.info("filetableResponse:" + filetableResponse);
-  
+  await disconnectFromDB();  
   return successResponse(200, 
     ENV_COGNITOCONSTANTS.USERREG_MSG
    );

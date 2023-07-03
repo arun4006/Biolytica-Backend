@@ -6,7 +6,8 @@ const { successResponse,errorResponse } = require("../utils/response");
 const { ENV_BUCKETCONSTANTS } = require("../constants/env.bucketConstants");
 const { ENV_CONSTANTS } = require("../constants/env.constants");
 const {extractFile}=require('../helper/index')
-const Log= require("../utils/logging")
+const Log= require("../utils/logging");
+const { connectToDB, disconnectFromDB } = require('../services/auth/authServices')
 
 exports.handler = async (event) => {
   try {
@@ -15,11 +16,12 @@ exports.handler = async (event) => {
     if (userTokenInfo == "TOKEN_EXPIRED") {
       return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
     }
+    await connectToDB();
     const { filename, data } = extractFile(event);
     const fileuploadResponse = await uploadFiles(filename,data);
     //const fileuploadResponse = await uploadFiles(event);
     Log.info(fileuploadResponse.isUploaded);
-
+   
     if (fileuploadResponse.isUploaded) {
       const userData = await getuserProfileInfo(userTokenInfo);
       Log.info("--userData--"+userData.name);
@@ -37,6 +39,7 @@ exports.handler = async (event) => {
       const updatePostCountByUser=await updateUserPostCount(userData.id);
       Log.info("updatePostCountByUser:" + updatePostCountByUser);
     }
+    await disconnectFromDB();
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,
       fileuploadResponse

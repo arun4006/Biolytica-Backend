@@ -13,11 +13,11 @@ const sequelize = new Sequelize(ENV_DBCONSTANTS.DATABASE,ENV_DBCONSTANTS.USERNAM
 });
 
 
-sequelize.authenticate().then(() => {
-  console.log('Connected to mysql ..!');
-}).catch((error) => {
-  console.error('Unable to connect to the database: ', error);
-});
+// sequelize.authenticate().then(() => {
+//   console.log('Connected to mysql ..!');
+// }).catch((error) => {
+//   console.error('Unable to connect to the database: ', error);
+// });
 
 const db = {}
 
@@ -29,10 +29,10 @@ db.imageInfo = require('../models/imageInfo.model')(sequelize, DataTypes)
 db.state = require('../models/state.model')(sequelize, DataTypes)
 db.city = require('../models/city.model')(sequelize, DataTypes)
 
-db.sequelize.sync({ force: false })
-.then(() => {
-    console.log('re-sync done!')
-})
+// db.sequelize.sync({ force: false })
+// .then(() => {
+//     console.log('re-sync done!')
+// })
 
 db.user.hasMany(db.imageInfo, {
   foreignKey: 'owner'

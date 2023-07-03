@@ -3,9 +3,10 @@ const cognito = new AWS.CognitoIdentityServiceProvider();
 const { ENV_COGNITOCONSTANTS } = require("../../constants/env.cognitoConstants");
 const { CognitoJwtVerifier } = require("aws-jwt-verify");
 const Log = require("../../utils/logging");
-const {ENV_CONSTANTS} = require("../../constants/env.constants");
-const {getUser}=require('../db/database.service')
-const {errorResponse} = require("../../utils/response");
+const { ENV_CONSTANTS } = require("../../constants/env.constants");
+const { getUser } = require('../db/database.service')
+const { errorResponse } = require("../../utils/response");
+const db = require("../../config/dbConnection");
 
 
 
@@ -44,12 +45,34 @@ exports.cognitoUserToDelete = async (username) => {
   } catch (err) {
     return errorResponse(ENV_CONSTANTS.INTERNALSERVER_ERROR, err.stack)
   }
-}; 
+};
 
-exports.isOwnProfile= async (reqUserId,currentUserId) => {
-   Log.info("reqUserId"+reqUserId);
-   Log.info("currentUserId"+currentUserId);
-   const userData=await getUser(currentUserId);
-   const result=userData.user_id === reqUserId;
-   return result;
+exports.isOwnProfile = async (reqUserId, currentUserId) => {
+  Log.info("reqUserId" + reqUserId);
+  Log.info("currentUserId" + currentUserId);
+  const userData = await getUser(currentUserId);
+  const result = userData.user_id === reqUserId;
+  return result;
+}
+
+var sequelize = db.sequelize;
+exports.connectToDB = async () => {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync({ force: false });
+    Log.info('Sequelize connection has been established successfully.');
+    Log.info('re-sync done!')  
+  } catch (error) {
+    Log.error('Error occurred while closing Sequelize connection:', error);
+  }
+}
+
+exports.disconnectFromDB = async () => {
+  try {
+    await sequelize.connectionManager.close();
+    Log.info('Sequelize connection has been closed successfully.');
+  } catch (error) {
+    Log.error('Error occurred while closing Sequelize connection:', error);
+  }
+
 }

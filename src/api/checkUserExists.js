@@ -3,6 +3,7 @@ const { ENV_CONSTANTS } = require("../constants/env.constants");
 const {ENV_COGNITOCONSTANTS}=require('../constants/env.cognitoConstants')
 const {unauthorizedResponse, successResponse, errorResponse } = require("../utils/response");
 const Log = require('../utils/logging');
+const { connectToDB, disconnectFromDB } = require('../services/auth/authServices')
 
 exports.handler = async (event) => {
     var email=event.queryStringParameters.email;

@@ -6,6 +6,7 @@ const { ENV_COGNITOCONSTANTS} = require("../constants/env.cognitoConstants");
 const {userPayload}=require('../helper/index')
 const Log = require('../utils/logging');
 const parser = require("lambda-multipart-parser");
+const { connectToDB, disconnectFromDB } = require('../services/auth/authServices')
 
 exports.handler = async (event, context) => {
   const userTokenInfo = await getUserTokenInfo(event);
@@ -13,6 +14,7 @@ exports.handler = async (event, context) => {
   if (userTokenInfo == "TOKEN_EXPIRED") {
     return unauthorizedResponse(ENV_CONSTANTS.UNAUTHORIZED, userTokenInfo);
   }
+  await connectToDB();
   const userProfile = await getuserProfileInfo(userTokenInfo);
   Log.info(userProfile);
 
@@ -29,8 +31,9 @@ exports.handler = async (event, context) => {
       const updateUserInImageDataResponse=await updateUserInImageData(event.pathParameters.id,reqBody.district);
       Log.info("updateUserInImageDataResponse"+updateUserInImageDataResponse);
     }
-    Log.info("updateUserResponse"+updateUserResponse)
-    
+    Log.info("updateUserResponse"+updateUserResponse);
+
+    await disconnectFromDB();
     return successResponse(
       ENV_CONSTANTS.SUCCESS_CODE,
       ENV_COGNITOCONSTANTS.USERUPDATE_MSG
@@ -38,6 +41,7 @@ exports.handler = async (event, context) => {
   }
   else {
     Log.info("you are not admin");
+    await disconnectFromDB();
     return unauthorizedResponse(
       ENV_CONSTANTS.UNAUTHORIZED,
       ENV_COGNITOCONSTANTS.UNAUTHORIZED_MSG
